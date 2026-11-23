@@ -1,0 +1,2390 @@
+{
+  "1903487": {
+    "clase": "estuco",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "Plaster001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/06_Muros_y_Estuco/Plaster001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/06_Muros_y_Estuco/Plaster001/Rugosidad.jpg"
+  },
+  "1903483": {
+    "clase": "estuco",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "Plaster001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/06_Muros_y_Estuco/Plaster001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/06_Muros_y_Estuco/Plaster001/Rugosidad.jpg"
+  },
+  "1903485": {
+    "clase": "estuco",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "Plaster001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/06_Muros_y_Estuco/Plaster001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/06_Muros_y_Estuco/Plaster001/Rugosidad.jpg"
+  },
+  "1903489": {
+    "clase": "estuco",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "Plaster001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/06_Muros_y_Estuco/Plaster001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/06_Muros_y_Estuco/Plaster001/Rugosidad.jpg"
+  },
+  "1903493": {
+    "clase": "estuco",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "Plaster001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/06_Muros_y_Estuco/Plaster001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/06_Muros_y_Estuco/Plaster001/Rugosidad.jpg"
+  },
+  "1903491": {
+    "clase": "estuco",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "Plaster001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/06_Muros_y_Estuco/Plaster001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/06_Muros_y_Estuco/Plaster001/Rugosidad.jpg"
+  },
+  "519": {
+    "clase": "tierra",
+    "escala_m": [
+      1.9999999999999998,
+      1.9999999999999998
+    ],
+    "angulo": 0.0,
+    "coleccion": "farm_soil",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/farm_soil/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/farm_soil/Rugosidad.jpg"
+  },
+  "350472": {
+    "clase": "cesped",
+    "escala_m": [
+      2.5099999999999993,
+      2.5099999999999993
+    ],
+    "angulo": 0.0,
+    "coleccion": "grass_ground",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/grass_ground/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/grass_ground/Rugosidad.jpg"
+  },
+  "523": {
+    "clase": "hormigon",
+    "escala_m": [
+      1.0999999999999999,
+      0.5499999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "Concrete034",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/05_Hormigon/Concrete034/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/05_Hormigon/Concrete034/Rugosidad.jpg"
+  },
+  "813": {
+    "clase": "hormigon",
+    "escala_m": [
+      1.0999999999999999,
+      0.5499999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "Concrete034",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/05_Hormigon/Concrete034/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/05_Hormigon/Concrete034/Rugosidad.jpg"
+  },
+  "356214": {
+    "clase": "hormigon",
+    "escala_m": [
+      1.0999999999999999,
+      0.5499999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "Concrete034",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/05_Hormigon/Concrete034/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/05_Hormigon/Concrete034/Rugosidad.jpg"
+  },
+  "538": {
+    "clase": "madera",
+    "escala_m": [
+      1.2,
+      1.2
+    ],
+    "angulo": 0,
+    "coleccion": "oak_wood_planks",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_wood_planks/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_wood_planks/Rugosidad.jpg",
+    "color": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_wood_planks/Color.jpg"
+  },
+  "356217": {
+    "clase": "hormigon",
+    "escala_m": [
+      1.0999999999999999,
+      0.5499999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "Concrete034",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/05_Hormigon/Concrete034/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/05_Hormigon/Concrete034/Rugosidad.jpg"
+  },
+  "1653690": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1653691": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1654557": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1654556": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1654559": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1664536": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1678129": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1678955": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1678956": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1683181": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1684113": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1685045": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1685977": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1686909": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1687841": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1691465": {
+    "clase": "leaf",
+    "escala_m": [
+      0.49999999999999994,
+      0.49999999999999994
+    ],
+    "angulo": 0.0,
+    "coleccion": "bark_brown_01",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Rugosidad.jpg"
+  },
+  "1692423": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1700643": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1701571": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1702432": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1704120": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1709500": {
+    "clase": "wicker",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "rough_linen",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/rough_linen/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/rough_linen/Rugosidad.jpg"
+  },
+  "1711188": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1712014": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1720426": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1721293": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1722949": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1718768": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1723775": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1724607": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1725474": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1727130": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1727962": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1728790": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1728788": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1728789": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1729778": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1730604": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1737242": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1743874": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1750512": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1757144": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1757970": {
+    "clase": "stone",
+    "escala_m": [
+      1.8019999999999998,
+      1.8019999999999998
+    ],
+    "angulo": 0.0,
+    "coleccion": "granite_tile_03",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/03_Piedras/granite_tile_03/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/03_Piedras/granite_tile_03/Rugosidad.jpg"
+  },
+  "1759340": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1761894": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1766368": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1771354": {
+    "clase": "wicker",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "rough_linen",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/rough_linen/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/rough_linen/Rugosidad.jpg"
+  },
+  "1773006": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1776335": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1777161": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1778813": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1788767": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1798721": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1808669": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1818623": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1821223": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1823823": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1826423": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1829023": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1831623": {
+    "clase": "corteza",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "bark_brown_01",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Rugosidad.jpg"
+  },
+  "1831624": {
+    "clase": "leaf",
+    "escala_m": [
+      0.49999999999999994,
+      0.49999999999999994
+    ],
+    "angulo": 0.0,
+    "coleccion": "bark_brown_01",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Rugosidad.jpg"
+  },
+  "1832625": {
+    "clase": "leaf",
+    "escala_m": [
+      0.49999999999999994,
+      0.49999999999999994
+    ],
+    "angulo": 0.0,
+    "coleccion": "bark_brown_01",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Rugosidad.jpg"
+  },
+  "1839990": {
+    "clase": "stone",
+    "escala_m": [
+      1.8019999999999998,
+      1.8019999999999998
+    ],
+    "angulo": 0.0,
+    "coleccion": "granite_tile_03",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/03_Piedras/granite_tile_03/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/03_Piedras/granite_tile_03/Rugosidad.jpg"
+  },
+  "1839989": {
+    "clase": "stone",
+    "escala_m": [
+      1.8019999999999998,
+      1.8019999999999998
+    ],
+    "angulo": 0.0,
+    "coleccion": "granite_tile_03",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/03_Piedras/granite_tile_03/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/03_Piedras/granite_tile_03/Rugosidad.jpg"
+  },
+  "1839987": {
+    "clase": "stone",
+    "escala_m": [
+      1.8019999999999998,
+      1.8019999999999998
+    ],
+    "angulo": 0.0,
+    "coleccion": "granite_tile_03",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/03_Piedras/granite_tile_03/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/03_Piedras/granite_tile_03/Rugosidad.jpg"
+  },
+  "1839988": {
+    "clase": "stone",
+    "escala_m": [
+      1.8019999999999998,
+      1.8019999999999998
+    ],
+    "angulo": 0.0,
+    "coleccion": "granite_tile_03",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/03_Piedras/granite_tile_03/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/03_Piedras/granite_tile_03/Rugosidad.jpg"
+  },
+  "1859705": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1864004": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1864882": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1865760": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1052754": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1052755": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1052756": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1050957": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1050954": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1050955": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1053684": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1054598": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1051881": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1051882": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1055414": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1056270": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1056271": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1044779": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1045760": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1045761": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1047649": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1048597": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1049510": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1049511": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1717216": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1704946": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1704947": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1704949": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1714656": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1714657": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1074489": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1074490": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1076430": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1083547": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1078806": {
+    "clase": "revestimiento_ceramico",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Plaster001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/06_Muros_y_Estuco/Plaster001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/06_Muros_y_Estuco/Plaster001/Rugosidad.jpg"
+  },
+  "1078807": {
+    "clase": "revestimiento_ceramico",
+    "escala_m": [
+      1.2,
+      1.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Tiles036",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/04_Ceramica_y_Baldosa/Tiles036/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/04_Ceramica_y_Baldosa/Tiles036/Rugosidad.jpg"
+  },
+  "1078808": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1870000": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1873425": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1876850": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1656679": {
+    "clase": "papel",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1657505": {
+    "clase": "papel",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1658331": {
+    "clase": "papel",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1661753": {
+    "clase": "leaf",
+    "escala_m": [
+      0.49999999999999994,
+      0.49999999999999994
+    ],
+    "angulo": 0.0,
+    "coleccion": "bark_brown_01",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Rugosidad.jpg"
+  },
+  "1663578": {
+    "clase": "leaf",
+    "escala_m": [
+      0.49999999999999994,
+      0.49999999999999994
+    ],
+    "angulo": 0.0,
+    "coleccion": "bark_brown_01",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Rugosidad.jpg"
+  },
+  "1665414": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1665415": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1666434": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1666435": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1667454": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1667455": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1668474": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1668475": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1679836": {
+    "clase": "papel",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1680662": {
+    "clase": "papel",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1681488": {
+    "clase": "papel",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1689640": {
+    "clase": "leaf",
+    "escala_m": [
+      0.49999999999999994,
+      0.49999999999999994
+    ],
+    "angulo": 0.0,
+    "coleccion": "bark_brown_01",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Rugosidad.jpg"
+  },
+  "1719594": {
+    "clase": "papel",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1732262": {
+    "clase": "carton",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1734752": {
+    "clase": "carton",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1738068": {
+    "clase": "carton",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1740558": {
+    "clase": "carton",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1743048": {
+    "clase": "carton",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1745532": {
+    "clase": "carton",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1748022": {
+    "clase": "carton",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1751338": {
+    "clase": "carton",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1753828": {
+    "clase": "carton",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1756318": {
+    "clase": "carton",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1762893": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1763890": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1764716": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1765542": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1772180": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1773851": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1774677": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1777987": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1781303": {
+    "clase": "carton",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1783793": {
+    "clase": "carton",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1785451": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1787941": {
+    "clase": "carton",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1790425": {
+    "clase": "carton",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1792915": {
+    "clase": "carton",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1795405": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1797063": {
+    "clase": "carton",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1799547": {
+    "clase": "carton",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1802037": {
+    "clase": "carton",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1804527": {
+    "clase": "carton",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1805353": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1806179": {
+    "clase": "carton",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1811159": {
+    "clase": "carton",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1813649": {
+    "clase": "carton",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1815307": {
+    "clase": "melamina",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "oak_veneer_02",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/oak_veneer_02/Rugosidad.jpg"
+  },
+  "1817797": {
+    "clase": "carton",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1819510": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1820397": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1822110": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1822997": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1824710": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1825597": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1827310": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1828197": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1829910": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1830797": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1833443": {
+    "clase": "leaf",
+    "escala_m": [
+      0.49999999999999994,
+      0.49999999999999994
+    ],
+    "angulo": 0.0,
+    "coleccion": "bark_brown_01",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Rugosidad.jpg"
+  },
+  "1834261": {
+    "clase": "leaf",
+    "escala_m": [
+      0.49999999999999994,
+      0.49999999999999994
+    ],
+    "angulo": 0.0,
+    "coleccion": "bark_brown_01",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Rugosidad.jpg"
+  },
+  "1835079": {
+    "clase": "leaf",
+    "escala_m": [
+      0.49999999999999994,
+      0.49999999999999994
+    ],
+    "angulo": 0.0,
+    "coleccion": "bark_brown_01",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Rugosidad.jpg"
+  },
+  "1835897": {
+    "clase": "leaf",
+    "escala_m": [
+      0.49999999999999994,
+      0.49999999999999994
+    ],
+    "angulo": 0.0,
+    "coleccion": "bark_brown_01",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Rugosidad.jpg"
+  },
+  "1836715": {
+    "clase": "leaf",
+    "escala_m": [
+      0.49999999999999994,
+      0.49999999999999994
+    ],
+    "angulo": 0.0,
+    "coleccion": "bark_brown_01",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Rugosidad.jpg"
+  },
+  "1837533": {
+    "clase": "leaf",
+    "escala_m": [
+      0.49999999999999994,
+      0.49999999999999994
+    ],
+    "angulo": 0.0,
+    "coleccion": "bark_brown_01",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Rugosidad.jpg"
+  },
+  "1838351": {
+    "clase": "leaf",
+    "escala_m": [
+      0.49999999999999994,
+      0.49999999999999994
+    ],
+    "angulo": 0.0,
+    "coleccion": "bark_brown_01",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Rugosidad.jpg"
+  },
+  "1839169": {
+    "clase": "leaf",
+    "escala_m": [
+      0.49999999999999994,
+      0.49999999999999994
+    ],
+    "angulo": 0.0,
+    "coleccion": "bark_brown_01",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Rugosidad.jpg"
+  },
+  "1841031": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1841871": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1842711": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1843551": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1844391": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1845232": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1851348": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1852236": {
+    "clase": "wood",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1858879": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1057151": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1044780": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1044781": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1717992": {
+    "clase": "papel",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1706036": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1708682": {
+    "clase": "leaf",
+    "escala_m": [
+      0.49999999999999994,
+      0.49999999999999994
+    ],
+    "angulo": 0.0,
+    "coleccion": "bark_brown_01",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/08_Jardin_y_Suelos/bark_brown_01/Rugosidad.jpg"
+  },
+  "1715564": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1716390": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1074492": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1076431": {
+    "clase": "fabric",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1877676": {
+    "clase": "papel",
+    "escala_m": [
+      0.2,
+      0.2
+    ],
+    "angulo": 0.0,
+    "coleccion": "Paper001",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/13_Papel/Paper001/Rugosidad.jpg"
+  },
+  "1878508": {
+    "clase": "metal",
+    "escala_m": [
+      0.3,
+      0.3
+    ],
+    "angulo": 0.0,
+    "coleccion": "Metal049A",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/09_Metales/Metal049A/Rugosidad.jpg"
+  },
+  "1055415": {
+    "clase": "stone",
+    "escala_m": [
+      1.8019999999999998,
+      1.8019999999999998
+    ],
+    "angulo": 0.0,
+    "coleccion": "granite_tile_03",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/03_Piedras/granite_tile_03/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/03_Piedras/granite_tile_03/Rugosidad.jpg"
+  },
+  "1050956": {
+    "clase": "stone",
+    "escala_m": [
+      1.8019999999999998,
+      1.8019999999999998
+    ],
+    "angulo": 0.0,
+    "coleccion": "granite_tile_03",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/03_Piedras/granite_tile_03/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/03_Piedras/granite_tile_03/Rugosidad.jpg"
+  },
+  "1907153": {
+    "clase": "",
+    "escala_m": [
+      0.9999999999999999,
+      0.9999999999999999
+    ],
+    "angulo": 0.0,
+    "coleccion": "natural_walnut_veneer",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/01_Maderas/natural_walnut_veneer/Rugosidad.jpg"
+  },
+  "1907149": {
+    "clase": "",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1907151": {
+    "clase": "",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  },
+  "1907155": {
+    "clase": "",
+    "escala_m": [
+      0.27008,
+      0.27569999999999995
+    ],
+    "angulo": 0.0,
+    "coleccion": "poly_wool_herringbone",
+    "normal": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Normal_OpenGL.jpg",
+    "rugosidad": "Texturas_Revit/01_Biblioteca_PBR/02_Telas_y_Cuero/poly_wool_herringbone/Rugosidad.jpg"
+  }
+}

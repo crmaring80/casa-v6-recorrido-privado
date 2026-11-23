@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Nuestra casa · Recorrido privado</title>
+  <style>
+    :root{color-scheme:dark;font-family:system-ui,"Segoe UI",sans-serif}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 20% 10%,#526f5d 0,#24352d 38%,#111814 100%);color:#fff;padding:24px}
+    main{width:min(430px,100%);padding:34px;border:1px solid #ffffff24;border-radius:22px;background:#101713dc;box-shadow:0 30px 80px #0009;backdrop-filter:blur(12px)}
+    .mark{width:56px;height:56px;display:grid;place-items:center;border-radius:16px;background:#d9c6a1;color:#24352d;font-size:28px;margin-bottom:22px}
+    h1{font-size:28px;margin:0 0 10px}p{color:#d6ddd8;line-height:1.5;margin:0 0 24px}label{display:block;font-size:14px;margin-bottom:8px}
+    input,button{width:100%;border-radius:12px;font:inherit;padding:13px 15px}input{border:1px solid #ffffff38;background:#0a0f0c;color:#fff;outline:none}input:focus{border-color:#d9c6a1}
+    button{margin-top:12px;border:0;background:#d9c6a1;color:#24352d;font-weight:700;cursor:pointer}button:disabled{opacity:.6;cursor:wait}
+    #msg{min-height:22px;margin-top:14px;color:#f1b7aa;font-size:14px}.small{font-size:12px;color:#aebbb2;margin-top:18px}
+  </style>
+</head>
+<body>
+  <main>
+    <div class="mark">⌂</div>
+    <h1>Nuestra casa</h1>
+    <p>Ingresa la contraseña para abrir el recorrido 3D privado.</p>
+    <form id="form">
+      <label for="password">Contraseña</label>
+      <input id="password" type="password" autocomplete="current-password" required autofocus>
+      <button id="open" type="submit">Abrir recorrido</button>
+      <div id="msg" role="status" aria-live="polite"></div>
+    </form>
+    <div class="small">El modelo se descifra únicamente en este dispositivo.</div>
+  </main>
+  <script type="module">
+    const form=document.querySelector('#form');
+    const password=document.querySelector('#password');
+    const button=document.querySelector('#open');
+    const msg=document.querySelector('#msg');
+    const ITERATIONS=250000;
+
+    function saveModel(bytes){
+      return new Promise((resolve,reject)=>{
+        const open=indexedDB.open('casa-v6-protegida',1);
+        open.onupgradeneeded=()=>open.result.createObjectStore('modelo');
+        open.onerror=()=>reject(open.error);
+        open.onsuccess=()=>{
+          const db=open.result;
+          const tx=db.transaction('modelo','readwrite');
+          tx.objectStore('modelo').put(bytes,'actual');
+          tx.oncomplete=()=>{db.close();resolve()};
+          tx.onerror=()=>reject(tx.error);
+        };
+      });
+    }
+
+    form.addEventListener('submit',async event=>{
+      event.preventDefault();
+      button.disabled=true; msg.textContent='Abriendo el modelo…';
+      try{
+        const packed=new Uint8Array(await fetch('./modelo_revit_V6.enc',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('No se encontró el recorrido.');return r.arrayBuffer()}));
+        const salt=packed.slice(0,16),iv=packed.slice(16,28),cipher=packed.slice(28);
+        const baseKey=await crypto.subtle.importKey('raw',new TextEncoder().encode(password.value),'PBKDF2',false,['deriveKey']);
+        const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:ITERATIONS,hash:'SHA-256'},baseKey,{name:'AES-GCM',length:256},false,['decrypt']);
+        const plain=await crypto.subtle.decrypt({name:'AES-GCM',iv},key,cipher);
+        JSON.parse(new TextDecoder().decode(plain));
+        await saveModel(plain);
+        location.replace('./casa_v6.html');
+      }catch(error){
+        console.error(error);
+        msg.textContent='Contraseña incorrecta. Inténtalo otra vez.';
+        password.select(); button.disabled=false;
+      }
+    });
+  </script>
+</body>
+</html>

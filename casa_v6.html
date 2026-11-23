@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CASA V6 - Recorrido 3D</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #0d1014; font-family: system-ui, "Segoe UI", sans-serif; color: #fff; }
+  canvas { display: block; cursor: grab; }
+  canvas:active { cursor: grabbing; }
+  .panel { background: rgba(15,18,22,.58); border-radius: 8px; backdrop-filter: blur(6px); }
+  #hud { position: absolute; left: 16px; top: 16px; right: 330px; display: flex; gap: 8px; flex-wrap: wrap; }
+  #hud select {font:inherit;color:#fff;background:#273a34;border:1px solid #60756b;border-radius:8px;padding:8px;max-width:210px;}
+  #hud button { background: rgba(15,18,22,.62); color: #fff; border: 1px solid rgba(255,255,255,.25); border-radius: 8px; padding: 8px 14px; font-size: 14px; cursor: pointer; backdrop-filter: blur(6px); }
+  #hud button:hover { background: rgba(40,46,54,.8); }
+  #hud button.on { background: rgba(255,255,255,.92); color: #111; }
+  #help { position: absolute; left: 16px; bottom: 16px; padding: 10px 14px; font-size: 13px; line-height: 1.6; max-width: 440px; }
+  #help b { font-weight: 600; }
+  #sun { position: absolute; right: 16px; top: 16px; padding: 8px 14px; font-size: 13px; display: flex; align-items: center; gap: 10px; }
+  #load { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: #0d1014; font-size: 16px; transition: opacity .6s; }
+@media(max-width:900px){#hud{right:16px;top:61px;gap:6px}#hud button{font-size:12px;padding:6px 9px}#hud select{font-size:12px;padding:6px 8px}#sun{top:14px;left:16px;right:auto}#help{font-size:11px;max-width:calc(100vw - 32px)}}
+</style>
+<script type="importmap">
+{ "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="hud">
+  <button id="bTour" class="on">Recorrido automático</button>
+  <button id="bWalk">Caminar</button>
+  <button id="bIn">Interior</button><select id="bRoom" aria-label="Ambiente"><option value="">Ir a un ambiente…</option></select>
+  <button id="bFront">Fachada</button>
+  <button id="bAir">Vista aérea</button>
+  <button id="bC" title="Cambiar techo y colores de muros">Propuesta</button>
+  <button id="bQ"title="Sombras suaves y reflejos de espejos. Puede reducir la fluidez.">Calidad alta</button>
+</div>
+<div id="sun" class="panel">Hora del día <input id="hour" type="range" min="6" max="18" step="0.25" value="10"> <span id="hourOut">10:00</span></div>
+<div id="help" class="panel">
+  <b>Arrastra</b> para mirar · <b>W A S D</b> o flechas para moverte · <b>Shift</b> correr<br>
+  <b>F</b> cambia entre caminar y volar · <b>Q / E</b> bajar / subir en vuelo · rueda: avanzar
+</div>
+<div id="load">Cargando modelo de Revit…</div>
+
+<script type="module">
+import * as THREE from 'three';
+import { softenFurniture } from './formas_organicas.js';
+import { daylightEnvironment,finishMaterial,softenBox,windowLighting,roomMirrors,realismStats } from './realismo.js';
+import { Sky } from 'three/addons/objects/Sky.js';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+
+// ---------- Configuracion ----------
+const FT = 0.3048;          // Revit exporta el FBX en pies y con Z hacia arriba
+const EYE = 1.65;           // altura de ojos en metros
+
+// ---------- Renderizador ----------
+const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+renderer.setSize(innerWidth, innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.95;   // CASA V5: algo mas de luz para que el crema se vea como en Revit
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.08, 2000);
+
+// ---------- Cielo, sol y luz ambiente ----------
+const sky = new Sky();
+sky.scale.setScalar(5000);
+scene.add(sky);
+const su = sky.material.uniforms;
+su.turbidity.value = 3.5; su.rayleigh.value = 1.4; su.mieCoefficient.value = 0.004; su.mieDirectionalG.value = 0.85;
+
+const sun = new THREE.DirectionalLight(0xfff1dc, 3.2);
+sun.castShadow = true;
+sun.shadow.mapSize.set(4096, 4096);
+sun.shadow.bias = -0.0003;
+sun.shadow.normalBias = 0.012;
+sun.shadow.radius=3;
+scene.add(sun, sun.target);
+const hemi = new THREE.HemisphereLight(0xfff1de, 0xc4a98a, 0.5);   // luz ambiente calida (antes azulada)
+scene.add(hemi);
+
+const pmrem = new THREE.PMREMGenerator(renderer);
+let envRT = null;
+const hdrEnvironment=await daylightEnvironment(renderer,pmrem);
+let updateWindowLights=()=>{}; let updateMirrors=()=>{};
+let currentHour=10;
+const sunDir = new THREE.Vector3();
+const center = new THREE.Vector3();
+let radius = 10, floorY = 0, lawnY = -2;
+let lamps = [];             // luces de lampara del mobiliario
+
+function setHour(h) {
+  currentHour=h;
+  // Trayectoria solar simplificada. El sol sale por la esquina noroeste del modelo (-X, -Z)
+  // y se pone por la sureste. SUN_TURN gira toda la trayectoria: 0 = sale por +X, 135 = sale por el noroeste.
+  const SUN_TURN = 135;
+  const t = (h - 6) / 12, k = Math.sin(t * Math.PI);
+  const elev = k * 66 + 3, azim = THREE.MathUtils.lerp(100, -100, t) + SUN_TURN;
+  sunDir.setFromSphericalCoords(1, THREE.MathUtils.degToRad(90 - elev), THREE.MathUtils.degToRad(azim));
+  su.sunPosition.value.copy(sunDir);
+  sun.color.setRGB(1, 0.95 - (1 - k) * 0.28, 0.86 - (1 - k) * 0.5);
+  sun.intensity = .75 + k * 1.75;
+  hemi.intensity = .12 + k * .25;
+  sun.position.copy(center).addScaledVector(sunDir, radius * 4);
+  sun.target.position.copy(center);
+  renderer.shadowMap.needsUpdate = true;
+  const dusk = h <= 7.25 || h >= 16.75;        // lamparas encendidas solo con el sol bajo
+  lamps.forEach(l => { l.visible = dusk; });
+  if(hdrEnvironment) scene.environment=hdrEnvironment.texture;
+  else {
+    if (envRT) envRT.dispose();
+    const s2 = new THREE.Scene(); s2.add(sky.clone());
+    envRT = pmrem.fromScene(s2, 0, 0.1, 6000);scene.environment = envRT.texture;
+  }
+  const hh = Math.floor(h), mm = Math.round((h - hh) * 60);
+  document.getElementById('hourOut').textContent = hh + ':' + String(mm).padStart(2, '0');
+}
+
+// ---------- Texturas procedurales ----------
+// Las coordenadas UV se generan en metros (ver boxUV), asi que repeat = 1 / tamano de la baldosa
+function tex(size, tileMeters, draw) {
+  const c = document.createElement('canvas'); c.width = c.height = size;
+  draw(c.getContext('2d'), size);
+  const t = new THREE.CanvasTexture(c);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(1 / tileMeters, 1 / tileMeters);
+  t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8;
+  t.userData.canvas = c;
+  return t;
+}
+// Relieve: el mismo dibujo de la textura se usa como mapa de relieve (juntas y vetas quedan hundidas)
+function relief(t) {
+  const b = new THREE.CanvasTexture(t.userData.canvas);
+  b.wrapS = b.wrapT = THREE.RepeatWrapping; b.repeat.copy(t.repeat); b.anisotropy = 8;
+  return b;
+}
+const rnd = (a, b) => a + Math.random() * (b - a);
+function speckle(g, s, n, fn) { for (let i = 0; i < n; i++) { g.fillStyle = fn(); g.fillRect(Math.random() * s, Math.random() * s, rnd(1, 3), rnd(1, 3)); } }
+
+const T = {
+  grass: tex(512, 3, (g, s) => {
+    g.fillStyle = '#5b7f35'; g.fillRect(0, 0, s, s);
+    for (let i = 0; i < 30000; i++) { g.fillStyle = `hsl(${rnd(82, 112)},${rnd(42, 68)}%,${rnd(28, 48)}%)`; g.fillRect(Math.random() * s, Math.random() * s, 1.5, rnd(2, 6)); }
+  }),
+  earth: tex(256, 2, (g, s) => { g.fillStyle = '#5b4632'; g.fillRect(0, 0, s, s); speckle(g, s, 9000, () => `hsl(${rnd(22, 34)},${rnd(22, 38)}%,${rnd(18, 34)}%)`); }),
+  plaster: tex(1024, 2.5, (g, s) => {
+    g.fillStyle = '#e6e2d8'; g.fillRect(0, 0, s, s);
+    // manchas suaves de llana + grano fino de estuco
+    for (let i = 0; i < 260; i++) { const x = Math.random() * s, y = Math.random() * s, r = rnd(20, 90); const gr = g.createRadialGradient(x, y, 0, x, y, r); const c = Math.random() < .5 ? '255,255,255' : '150,142,128'; gr.addColorStop(0, `rgba(${c},${rnd(.03, .08)})`); gr.addColorStop(1, `rgba(${c},0)`); g.fillStyle = gr; g.fillRect(x - r, y - r, r * 2, r * 2); }
+    speckle(g, s, 60000, () => `rgba(${Math.random() < .5 ? '255,255,255' : '110,102,90'},${rnd(.03, .11)})`);
+  }),
+  concrete: tex(512, 3, (g, s) => { g.fillStyle = '#a9a8a3'; g.fillRect(0, 0, s, s); speckle(g, s, 22000, () => `rgba(${Math.random() < .5 ? '255,255,255' : '40,40,40'},${rnd(.03, .12)})`); g.strokeStyle = 'rgba(60,60,60,.25)'; g.lineWidth = 2; g.strokeRect(0, 0, s, s); }),
+  wood: tex(1024, 2.4, (g, s) => {
+    const rows = 12, h = s / rows;
+    for (let r = 0; r < rows; r++) {
+      let x = -rnd(0, s * .5);
+      while (x < s) {
+        const w = rnd(s * .35, s * .6);
+        g.fillStyle = `hsl(${rnd(25, 30)},${rnd(44, 52)}%,${rnd(40, 47)}%)`; g.fillRect(x, r * h, w, h);
+        for (let i = 0; i < 26; i++) { g.strokeStyle = `rgba(60,30,10,${rnd(.04, .14)})`; g.lineWidth = rnd(.5, 1.5); const y = r * h + rnd(2, h - 2); g.beginPath(); g.moveTo(x, y); g.bezierCurveTo(x + w * .3, y + rnd(-3, 3), x + w * .6, y + rnd(-3, 3), x + w, y); g.stroke(); }
+        g.fillStyle = 'rgba(30,15,5,.55)'; g.fillRect(x + w - 1.5, r * h, 1.5, h);
+        x += w;
+      }
+      g.fillStyle = 'rgba(30,15,5,.55)'; g.fillRect(0, r * h, s, 1.5);
+    }
+  }),
+  shingle: tex(512, 1.6, (g, s) => {
+    const rows = 8, h = s / rows, cols = 6, w = s / cols;
+    for (let r = 0; r < rows; r++) for (let c = -1; c < cols; c++) {
+      const x = c * w + (r % 2 ? w / 2 : 0);
+      g.fillStyle = `hsl(${rnd(18, 28)},${rnd(18, 30)}%,${rnd(24, 36)}%)`; g.fillRect(x, r * h, w, h);
+      g.fillStyle = 'rgba(0,0,0,.35)'; g.fillRect(x, r * h, 2, h); g.fillRect(x, r * h + h - 3, w, 3);
+      g.fillStyle = 'rgba(255,255,255,.06)'; g.fillRect(x, r * h, w, 2);
+    }
+    speckle(g, s, 9000, () => `rgba(0,0,0,${rnd(.04, .14)})`);
+  }),
+  // Lamina metalica de junta alzada: el color lo pone el material; aqui solo van juntas y brillo
+  lamina: tex(512, 0.45, (g, s) => {
+    g.fillStyle = '#e9e9e9'; g.fillRect(0, 0, s, s);
+    const gr = g.createLinearGradient(0, 0, s, 0); gr.addColorStop(0, 'rgba(0,0,0,.16)'); gr.addColorStop(0.5, 'rgba(255,255,255,.1)'); gr.addColorStop(1, 'rgba(0,0,0,.16)');
+    g.fillStyle = gr; g.fillRect(0, 0, s, s);
+    g.fillStyle = 'rgba(0,0,0,.55)'; g.fillRect(0, 0, 7, s); g.fillRect(s - 7, 0, 7, s);          // sombra de la junta
+    g.fillStyle = 'rgba(255,255,255,.75)'; g.fillRect(7, 0, 5, s);                                 // lomo de la junta
+    for (let i = 0; i < 60; i++) { g.fillStyle = `rgba(0,0,0,${rnd(.02, .06)})`; g.fillRect(rnd(0, s), 0, rnd(1, 3), s); }   // escurridos
+  }),
+  tile: tex(512, 1.2, (g, s) => {
+    g.fillStyle = '#b9bbbb'; g.fillRect(0, 0, s, s); speckle(g, s, 8000, () => `rgba(255,255,255,${rnd(.03, .1)})`);
+    g.strokeStyle = 'rgba(70,70,70,.6)'; g.lineWidth = 3; for (let i = 0; i <= 2; i++) { g.beginPath(); g.moveTo(i * s / 2, 0); g.lineTo(i * s / 2, s); g.moveTo(0, i * s / 2); g.lineTo(s, i * s / 2); g.stroke(); }
+  })
+};
+
+// ---------- Biblioteca de materiales PBR ----------
+const S = (o) => new THREE.MeshStandardMaterial(o);
+const P = (o) => new THREE.MeshPhysicalMaterial(o);
+const M = {
+  plaster: S({ map: T.plaster, roughness: 0.92, bumpMap: relief(T.plaster), bumpScale: 0.6 }),
+  soffit: S({ color: 0xe9e6df, roughness: 0.9 }),
+  shingle: S({ map: T.shingle, roughness: 0.95, bumpMap: relief(T.shingle), bumpScale: 3 }),
+  grass: S({ map: T.grass, roughness: 1, bumpMap: relief(T.grass), bumpScale: 2 }),
+  earth: S({ map: T.earth, roughness: 1 }),
+  concrete: S({ map: T.concrete, roughness: 0.85, bumpMap: relief(T.concrete), bumpScale: 0.8 }),
+  column: S({ map: T.plaster, color: 0xf2efe8, roughness: 0.88, bumpMap: relief(T.plaster), bumpScale: 0.6 }),
+  wood: S({ map: T.wood, roughness: 0.38, bumpMap: relief(T.wood), bumpScale: 1.2 }),
+  tile: S({ map: T.tile, roughness: 0.16, bumpMap: relief(T.tile), bumpScale: 1.5 }),
+  doorWood: S({ color: 0x7a4a26, roughness: 0.5 }),
+  frame: S({ color: 0x5b3a1e, roughness: 0.5 }),
+  frameWhite: S({ color: 0xece9e2, roughness: 0.6 }),
+  metal: S({ color: 0x2a2c2f, roughness: 0.4, metalness: 0.85 }),
+  chrome: S({ color: 0xd9dde0, roughness: 0.12, metalness: 1 }),
+  glass: P({ color: 0xd4e8ee, roughness: 0.02, metalness: 0, transparent: true, opacity: 0.2, envMapIntensity: 1.8, side: THREE.DoubleSide, depthWrite: false }),
+  carPaint: P({ color: 0xf4f4f2, roughness: 0.28, metalness: 0.15, clearcoat: 1, clearcoatRoughness: 0.08 }),
+  carGlass: P({ color: 0x0b1014, roughness: 0.04, metalness: 0.2, envMapIntensity: 2, clearcoat: 1 }),
+  carDark: S({ color: 0x18191b, roughness: 0.7 }),
+  carSeat: S({ color: 0x6f7074, roughness: 0.9 }),
+  retaining: S({ map: T.concrete, color: 0xb8b4aa, roughness: 0.95 }),
+  rubber: S({ color: 0x0c0c0d, roughness: 0.95 }),
+  carRed: S({ color: 0x9a0d0d, roughness: 0.25, emissive: 0x2a0000 }),
+  carLight: P({ color: 0xffffff, roughness: 0.05, metalness: 0.3, envMapIntensity: 2 }),
+  fallback: S({ color: 0xcfccc4, roughness: 0.85 })
+};
+M.glass.userData.ghost = true;   // el suelo no "choca" con el vidrio
+
+// ---------- Pintura de muros y propuestas de techo ----------
+// Cada cara de muro se pinta segun hacia donde mira: interior, exterior o muro de acento.
+const paint = (color) => S({ map: T.plaster, color, roughness: 0.9, bumpMap: M.plaster.bumpMap, bumpScale: 0.6 });
+M.wallInt = paint(0xf6f1e7);
+M.wallExt = paint(0xffffff);
+M.acc = [paint(0xffffff), paint(0xffffff), paint(0xffffff), paint(0xffffff)];
+const reliefLamina = relief(T.lamina), reliefShingle = M.shingle.bumpMap;
+
+// Zonas interiores [x0, x1, z0, z1] a ejes de muros (las mismas del cielo raso)
+const ZONES = [[141.17, 145.77, 112.34, 120.85], [145.77, 147.35, 112.34, 120.06], [147.35, 152.51, 109.08, 123.06], [144.74, 147.35, 111.74, 112.34], [145.85, 147.35, 109.08, 111.74]];   // CASA V6 (ejes de muros)
+// Muros de acento: zona donde cae un punto a 20 cm delante de la cara
+const ACCENTS = [];   // CASA V5: sin muros de acento definidos
+const inRect = (r, x, z) => x > r[0] && x < r[1] && z > r[2] && z < r[3];
+function wallClass(x, z) {
+  for (let i = 0; i < ACCENTS.length; i++) if (inRect(ACCENTS[i], x, z)) return 2 + i;
+  for (const r of ZONES) if (inRect(r, x, z)) return 0;
+  return 1;
+}
+// Reparte los triangulos de cada muro por clase. split = true crea una malla por clase (para poder fundirlas).
+function paintWalls(root, filter, split) {
+  const list = [];
+  root.traverse(o => { if (o.isMesh && o.visible && filter(o)) list.push(o); });
+  const mats = [M.wallInt, M.wallExt, ...M.acc];
+  const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3(), n = new THREE.Vector3();
+  for (const o of list) {
+    const geo = o.geometry.index ? o.geometry.toNonIndexed() : o.geometry;
+    const P = geo.attributes.position, N = geo.attributes.normal, U = geo.attributes.uv;
+    if (!N || !U) continue;
+    const tri = P.count / 3, cls = new Uint8Array(tri);
+    for (let t = 0; t < tri; t++) {
+      a.fromBufferAttribute(P, t * 3).applyMatrix4(o.matrixWorld);
+      b.fromBufferAttribute(P, t * 3 + 1).applyMatrix4(o.matrixWorld);
+      c.fromBufferAttribute(P, t * 3 + 2).applyMatrix4(o.matrixWorld);
+      n.subVectors(b, a).cross(c.clone().sub(a));
+      const h = Math.hypot(n.x, n.z);
+      if (h < 1e-9 || Math.abs(n.y) > h) { cls[t] = 0; continue; }           // cara horizontal
+      cls[t] = wallClass((a.x + b.x + c.x) / 3 + n.x / h * 0.2, (a.z + b.z + c.z) / 3 + n.z / h * 0.2);
+    }
+    const order = Array.from({ length: tri }, (_, i) => i).sort((i, j) => cls[i] - cls[j]);
+    const np = new Float32Array(tri * 9), nn = new Float32Array(tri * 9), nu = new Float32Array(tri * 6);
+    order.forEach((t, k) => {
+      for (let v = 0; v < 3; v++) {
+        const s = t * 3 + v, d = k * 3 + v;
+        np[d * 3] = P.getX(s); np[d * 3 + 1] = P.getY(s); np[d * 3 + 2] = P.getZ(s);
+        nn[d * 3] = N.getX(s); nn[d * 3 + 1] = N.getY(s); nn[d * 3 + 2] = N.getZ(s);
+        nu[d * 2] = U.getX(s); nu[d * 2 + 1] = U.getY(s);
+      }
+    });
+    const ranges = [];                                  // [clase, primer triangulo, cantidad]
+    for (let k = 0; k < tri;) { const cl = cls[order[k]]; let e = k; while (e < tri && cls[order[e]] === cl) e++; ranges.push([cl, k, e - k]); k = e; }
+    const make = (from, count) => {
+      const g2 = new THREE.BufferGeometry();
+      g2.setAttribute('position', new THREE.BufferAttribute(np.slice(from * 9, (from + count) * 9), 3));
+      g2.setAttribute('normal', new THREE.BufferAttribute(nn.slice(from * 9, (from + count) * 9), 3));
+      g2.setAttribute('uv', new THREE.BufferAttribute(nu.slice(from * 6, (from + count) * 6), 2));
+      return g2;
+    };
+    if (split) {
+      for (const [cl, from, count] of ranges) {
+        const m2 = new THREE.Mesh(make(from, count), mats[cl]);
+        m2.applyMatrix4(o.matrix); m2.castShadow = true; m2.receiveShadow = true; o.parent.add(m2);
+      }
+      o.parent.remove(o);
+    } else {
+      const g2 = make(0, tri);
+      for (const [cl, from, count] of ranges) g2.addGroup(from * 3, count * 3, cl);
+      o.geometry = g2; o.material = mats;
+    }
+  }
+}
+
+// Propuestas de acabado: techo + color exterior + muros de acento. El boton "Propuesta" las recorre.
+const SCHEMES = [
+  { name: 'Lámina gris · blanco cálido · verde salvia', roof: 'lamina', roofColor: 0x4d5257, rough: 0.45, metal: 0.55,
+    ext: 0xf3ede1, acc: [0x9aa88f, 0x7f9488, 0xcdb9a0, 0xa9b79f] },
+  { name: 'Lámina terracota · arena · azul grisáceo', roof: 'lamina', roofColor: 0xa4553a, rough: 0.5, metal: 0.45,
+    ext: 0xe6d9c3, acc: [0x6f8596, 0x5f778a, 0xd9c3a5, 0x9db0bd] },
+  { name: 'Teja asfáltica · blanco · terracota', roof: 'shingle', roofColor: 0xffffff, rough: 0.95, metal: 0,
+    ext: 0xf7f4ee, acc: [0xc48a6a, 0xb97f63, 0xdccbb5, 0xcaa58d] }
+];
+let schemeIdx = 0;
+function applyScheme(i) {
+  schemeIdx = (i + SCHEMES.length) % SCHEMES.length;
+  const s = SCHEMES[schemeIdx], lam = s.roof === 'lamina';
+  M.shingle.map = lam ? T.lamina : T.shingle;
+  M.shingle.bumpMap = lam ? reliefLamina : reliefShingle;
+  M.shingle.bumpScale = lam ? 4 : 3;
+  M.shingle.color.setHex(s.roofColor); M.shingle.roughness = s.rough; M.shingle.metalness = s.metal;
+  M.shingle.needsUpdate = true;
+  M.wallExt.color.setHex(s.ext);
+  s.acc.forEach((c, k) => M.acc[k].color.setHex(c));
+  const b = document.getElementById('bC');
+  if (b) { b.textContent = 'Propuesta ' + (schemeIdx + 1) + '/' + SCHEMES.length; b.title = s.name + (revitStamp ? ' · modelo de Revit del ' + revitStamp : ''); }
+}
+let revitStamp = '';
+
+// Acabados con textura para la arquitectura exportada de Revit: (clase del elemento, material de Revit) -> material del recorrido.
+// Devuelve null para dejar el color propio de Revit (muebles y objetos CV3, auto).
+function pickRevit(e, matName) {
+  if (e.familia && e.familia.startsWith('CV3')) return null;
+  const n = matName || '';
+  switch (e.categoria) {
+    case 'Walls': return M.plaster;                       // despues se reparte en interior / exterior / acento
+    case 'Roofs': return n.startsWith('Roofing') ? M.shingle : M.soffit;
+    case 'Ceilings': return M.soffit;
+    case 'Toposolid': {
+      const terreno = n.toLowerCase();
+      return (terreno.includes('grass') || terreno.includes('sand') ||
+              terreno.includes('cesped') || terreno.includes('césped')) ? M.grass : M.retaining;
+    }   // CASA V5: el terreno es cesped aunque Revit use CV5_Cesped
+    case 'Floors': return n === 'Oak Flooring' ? M.wood : (n.includes('Precast Smooth') ? M.tile : M.concrete);
+    case 'Structural Columns': return M.column;
+    case 'Railings': case 'Top Rails': case 'Balusters': return M.metal;
+    case 'Windows': return n === 'Glass' ? M.glass : M.frame;
+    case 'Doors':
+      if (n === 'Material_vidrio' || /Vidrio|Glass|Cristal/i.test(n)) return M.glass;   // cualquier vidrio de puerta
+      if (/Hierro|Herraje/i.test(n)) return M.metal;
+      if (n === 'Material_madera' || n === 'Door - Panel') return M.doorWood;
+      if (n === 'Door - Frame' || n === 'Material_junta') return M.frame;
+      if (n.startsWith('Acero')) return M.chrome;
+      if (n.startsWith('Cerradura')) return M.metal;
+      return M.frameWhite;
+  }
+  return null;
+}
+
+// ---------- Texturas para muebles y objetos (CV3) ----------
+// Son texturas casi blancas: se multiplican por el color que trae cada material de Revit, asi el color no cambia.
+const TN = {
+  wood: tex(512, 0.9, (g, s) => {
+    g.fillStyle = '#f1ece4'; g.fillRect(0, 0, s, s);
+    for (let i = 0; i < 150; i++) { g.strokeStyle = `rgba(70,40,15,${rnd(.05, .22)})`; g.lineWidth = rnd(.6, 2.2); const y = rnd(0, s); g.beginPath(); g.moveTo(0, y); g.bezierCurveTo(s * .3, y + rnd(-7, 7), s * .65, y + rnd(-7, 7), s, y); g.stroke(); }
+    for (let i = 0; i < 5; i++) { const x = rnd(0, s), y = rnd(0, s); for (let r = 3; r < 16; r += 3) { g.strokeStyle = `rgba(60,30,10,${rnd(.08, .18)})`; g.beginPath(); g.ellipse(x, y, r * 2.2, r, 0, 0, 6.3); g.stroke(); } }
+  }),
+  fabric: tex(256, 0.12, (g, s) => {
+    g.fillStyle = '#efefef'; g.fillRect(0, 0, s, s);
+    const n = 32, w = s / n;
+    for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) { g.fillStyle = (i + j) % 2 ? `rgba(0,0,0,${rnd(.08, .2)})` : `rgba(255,255,255,${rnd(.1, .3)})`; g.fillRect(i * w + 1, j * w + 1, w - 2, w - 2); }
+  }),
+  wicker: tex(256, 0.1, (g, s) => {
+    g.fillStyle = '#e9e2d4'; g.fillRect(0, 0, s, s);
+    const n = 8, w = s / n;
+    for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) { const hz = (i + j) % 2; g.fillStyle = `rgba(90,60,25,${rnd(.12, .3)})`; if (hz) g.fillRect(i * w, j * w + w * .15, w, w * .7); else g.fillRect(i * w + w * .15, j * w, w * .7, w); g.fillStyle = 'rgba(40,25,10,.45)'; g.fillRect(i * w, j * w, w, 2); g.fillRect(i * w, j * w, 2, w); }
+  }),
+  leaf: tex(256, 0.5, (g, s) => {
+    g.fillStyle = '#d9d9d9'; g.fillRect(0, 0, s, s);
+    for (let i = 0; i < 900; i++) { g.fillStyle = Math.random() < .5 ? `rgba(0,0,0,${rnd(.1, .35)})` : `rgba(255,255,255,${rnd(.15, .5)})`; g.beginPath(); g.ellipse(rnd(0, s), rnd(0, s), rnd(3, 9), rnd(2, 5), rnd(0, 3.1), 0, 6.3); g.fill(); }
+  }),
+  stone: tex(512, 1.2, (g, s) => {
+    g.fillStyle = '#ececec'; g.fillRect(0, 0, s, s);
+    speckle(g, s, 26000, () => `rgba(${Math.random() < .5 ? '255,255,255' : '20,20,20'},${rnd(.05, .22)})`);
+    for (let i = 0; i < 14; i++) { g.strokeStyle = `rgba(255,255,255,${rnd(.1, .3)})`; g.lineWidth = rnd(.5, 1.6); let x = rnd(0, s), y = rnd(0, s); g.beginPath(); g.moveTo(x, y); for (let k = 0; k < 6; k++) { x += rnd(-60, 60); y += rnd(-60, 60); g.lineTo(x, y); } g.stroke(); }
+  })
+};
+const TNB = { wood: relief(TN.wood), fabric: relief(TN.fabric), wicker: relief(TN.wicker), leaf: relief(TN.leaf), stone: relief(TN.stone) };
+const KIND = {
+  wood: { roughness: 0.45, bumpScale: 0.8 }, fabric: { roughness: 0.97, bumpScale: 1.6 }, wicker: { roughness: 0.85, bumpScale: 3 },
+  leaf: { roughness: 0.9, bumpScale: 2.5 }, stone: { roughness: 0.22, bumpScale: 0.3 }
+};
+const _hsl = { h: 0, s: 0, l: 0 };
+// Tipo de acabado de una pieza CV3 segun su familia, el nombre de su material y su color
+function cv3Kind(e, base) {
+  const fam = e.familia || '', name = base.name || '', all = fam + ' ' + name;
+  if (base.transparent) return null;
+  if (/_Espejo$/i.test(name) || (/Espejo/i.test(fam) && /Espejo|Vidrio|Cristal/i.test(name))) return 'mirror';
+  if (/Cromo|Acero|Metal|Tirador|Grifo/i.test(name) || /Grifo|Barra_toallero|Desague/i.test(fam)) return 'metal';
+  base.color.getHSL(_hsl);
+  const brown = _hsl.h > 0.03 && _hsl.h < 0.13 && _hsl.s > 0.2 && _hsl.l > 0.08 && _hsl.l < 0.72;
+  const green = _hsl.h > 0.18 && _hsl.h < 0.47 && _hsl.s > 0.18;
+  if (/Planta|Arbol|Arbusto|Seto|vegetal|Follaje|Palmera|Helecho/i.test(fam) && green) return 'leaf';
+  if (/Canasto|Mimbre|Cesto/i.test(all)) return 'wicker';
+  if (/Alfombra|Tapete|Felpudo|Cojin|Almohada|Edredon|Colchon|Cortina|Toalla|Manta|Abrigo|Bolso|Tela|Tapiz|Pantalla/i.test(all)) return 'fabric';
+  if (/Encimera|Piedra|Marmol|Granito/i.test(all)) return 'stone';
+  if (/Madera/i.test(name) || brown) return 'wood';
+  if (/Sofa|Silla|Banco|Cama|Puf|Sillon/i.test(fam) && !base.metalness) return 'fabric';
+  return null;
+}
+// Auto: Revit lo exporta con un solo material. Se reparte por altura: parte baja oscura (ruedas y bajos),
+// franja de ventanas en vidrio oscuro y el resto en pintura de carroceria.
+function carFinish(mesh) {
+  const g = mesh.geometry, p = g.attributes.position, idx = g.index.array, tri = idx.length / 3;
+  g.computeBoundingBox();
+  const z0 = g.boundingBox.min.z, hgt = g.boundingBox.max.z - z0 || 1;
+  const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3(), n = new THREE.Vector3();
+  const cls = new Uint8Array(tri);
+  for (let t = 0; t < tri; t++) {
+    a.fromBufferAttribute(p, idx[t * 3]); b.fromBufferAttribute(p, idx[t * 3 + 1]); c.fromBufferAttribute(p, idx[t * 3 + 2]);
+    const f = ((a.z + b.z + c.z) / 3 - z0) / hgt;
+    n.subVectors(b, a).cross(c.sub(a)).normalize();
+    cls[t] = f < 0.2 ? 2 : (f > 0.6 && f < 0.9 && Math.abs(n.z) < 0.8 ? 1 : 0);
+  }
+  const order = Array.from({ length: tri }, (_, i) => i).sort((i, j) => cls[i] - cls[j]);
+  const ni = new Uint32Array(tri * 3);
+  order.forEach((t, k) => { ni[k * 3] = idx[t * 3]; ni[k * 3 + 1] = idx[t * 3 + 1]; ni[k * 3 + 2] = idx[t * 3 + 2]; });
+  g.setIndex(new THREE.BufferAttribute(ni, 1)); g.clearGroups();
+  for (let k = 0; k < tri;) { const cl = cls[order[k]]; let e2 = k; while (e2 < tri && cls[order[e2]] === cl) e2++; g.addGroup(k * 3, (e2 - k) * 3, cl); k = e2; }
+  mesh.material = [M.carPaint, M.carGlass, M.carDark];
+}
+const cv3Cache = new Map();
+function cv3Finish(e, base) {
+  if (!(e.familia && e.familia.startsWith('CV3'))) return null;
+  const kind = cv3Kind(e, base);
+  if (!kind) return null;
+  const key = base.uuid + kind;
+  if (cv3Cache.has(key)) return cv3Cache.get(key);
+  const m = base.clone(); m.name = base.name; m.userData = base.userData;
+  if (kind === 'mirror') { m.color.setHex(0xe8eef0); m.metalness = 1; m.roughness = 0.03; m.envMapIntensity = 1.6; }
+  else if (kind === 'metal') { m.metalness = 0.9; m.roughness = Math.min(m.roughness, 0.28); }
+  else { m.map = TN[kind]; m.bumpMap = TNB[kind]; m.bumpScale = KIND[kind].bumpScale; m.roughness = KIND[kind].roughness; m.metalness = 0; m.userData = Object.assign({}, base.userData, { uv: true }); }
+  cv3Cache.set(key, m);
+  return m;
+}
+
+// Indices de material del auto (Tollota_corolla): asignados por posicion y tamano de cada grupo
+const CAR = { 3: 'chrome', 4: 'frameWhite', 5: 'frameWhite', 8: 'rubber', 10: 'chrome', 14: 'chrome',
+  16: 'carRed', 17: 'chrome', 18: 'chrome', 19: 'chrome', 22: 'carLight', 23: 'carPaint',
+  24: 'carSeat', 25: 'carPaint', 28: 'carGlass' };   // el resto: plastico oscuro
+
+// Regla: (nombre del elemento de Revit, indice de material del grupo) -> material
+function pick(name, idx) {
+  if (name.startsWith('Basic_Wall')) return M.plaster;
+  if (name.startsWith('Basic_Roof')) return idx === 1 ? M.shingle : M.soffit;
+  if (name.startsWith('Toposolid')) return idx === 1 ? M.grass : M.retaining;
+  if (name.startsWith('Floor_Standard_Timber')) return idx === 1 ? M.wood : M.concrete;
+  if (name.startsWith('Floor_Finish')) return M.tile;
+  if (name.startsWith('Floor')) return M.concrete;
+  if (name.startsWith('Concrete-Rectangular-Column')) return M.column;
+  if (name.startsWith('Railing') || name.startsWith('Top_Rail')) return M.metal;
+  if (name.startsWith('M_Fixed')) return idx === 0 ? M.glass : M.frame;
+  if (name.startsWith('M_Single-Flush')) return idx === 0 ? M.frameWhite : M.doorWood;
+  if (name.startsWith('Puerta')) return [M.frame, M.doorWood, M.glass, M.metal, M.chrome, M.chrome][idx] || M.doorWood;
+  if (name.startsWith('Tollota')) return M[CAR[idx]] || M.carDark;
+  return M.fallback;
+}
+
+// UV por proyeccion de caja, en metros, para que las texturas tengan escala real
+// En los techos (roof = true) la U se toma a lo largo del alero, para que las juntas de la lamina bajen por la pendiente
+function boxUV(geo, roof = false) {
+  const p = geo.attributes.position, n = geo.attributes.normal;
+  if (!n) return;
+  const uv = new Float32Array(p.count * 2);
+  for (let i = 0; i < p.count; i++) {
+    const ax = Math.abs(n.getX(i)), ay = Math.abs(n.getY(i)), az = Math.abs(n.getZ(i));
+    let u, v;
+    if (az >= ax && az >= ay) { if (roof && ax > ay) { u = p.getY(i); v = p.getX(i); } else { u = p.getX(i); v = p.getY(i); } }
+    else if (ax >= ay) { u = p.getY(i); v = p.getZ(i); }
+    else { u = p.getX(i); v = p.getZ(i); }
+    uv[i * 2] = u * FT; uv[i * 2 + 1] = v * FT;
+  }
+  geo.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
+}
+
+// ---------- Carga del modelo ----------
+const world = new THREE.Group();
+world.rotation.x = -Math.PI / 2;      // Z arriba (Revit) -> Y arriba (web)
+world.scale.setScalar(FT);            // pies -> metros
+scene.add(world);
+const colliders = [];const walkingFloors=[];
+
+async function loadCurrentRevit() {
+  const data = await new Promise((resolve, reject) => {
+    const open = indexedDB.open('casa-v6-protegida', 1);
+    open.onupgradeneeded = () => open.result.createObjectStore('modelo');
+    open.onerror = () => reject(open.error);
+    open.onsuccess = () => {
+      const db = open.result;
+      const tx = db.transaction('modelo', 'readwrite');
+      const store = tx.objectStore('modelo');
+      const get = store.get('actual');
+      get.onerror = () => reject(get.error);
+      get.onsuccess = () => {
+        const bytes = get.result;
+        store.delete('actual');
+        if (!bytes) {
+          location.replace('./');
+          reject(new Error('Vuelve a ingresar la contraseña.'));
+          return;
+        }
+        try {
+          resolve(JSON.parse(new TextDecoder().decode(bytes)));
+        } catch (error) {
+          reject(new Error('No se pudo abrir el modelo protegido.', {cause: error}));
+        }
+      };
+      tx.oncomplete = () => db.close();
+    };
+  });
+  const model = new THREE.Group(); model.name = 'CASA V3 · Revit';
+  const materials = new Map();
+  const extraMaterials=await fetch("./materiales_realismo.json").then(r=>r.json());
+  const textureCache = new Map();
+  async function texture(info, isColor) {
+    if (!info) return null;
+    const key = JSON.stringify([info,isColor]);
+    if (!textureCache.has(key)) textureCache.set(key, (async () => {
+      const t = await new THREE.TextureLoader().loadAsync(encodeURI(info.url));
+      t.colorSpace = isColor ? THREE.SRGBColorSpace : THREE.NoColorSpace;
+      t.wrapS = t.wrapT = THREE.RepeatWrapping;
+      t.repeat.set(1/info.escala_m[0],1/info.escala_m[1]);
+      t.rotation = THREE.MathUtils.degToRad(info.angulo || 0);
+      t.anisotropy = Math.min(8,renderer.capabilities.getMaxAnisotropy());
+      return t;
+    })());
+    return textureCache.get(key);
+  }
+  document.getElementById('load').textContent = 'Cargando materiales y texturas de Revit…';
+  await Promise.all(Object.entries(data.materiales).map(async ([id,m]) => {
+    const color = new THREE.Color().setRGB(...m.color.map(c => c / 255), THREE.SRGBColorSpace);
+    const opacity = 1-m.transparencia/100;
+    const [map,bumpMap] = await Promise.all([texture(m.imagen,true),texture(m.relieve,false)]);
+    const material = new THREE.MeshPhysicalMaterial({color,map,bumpMap,
+      bumpScale: Math.min(.01,Math.abs(m.intensidad_relieve || 0)*.003),
+      roughness:Math.max(.025,1-m.brillo),metalness:m.metal ? .85 : 0,
+      transparent:opacity<1,opacity,depthWrite:opacity>=1,side:THREE.DoubleSide});
+    material.name=m.nombre;material.userData={ghost:opacity<.5,aparienciaRevit:!!m.apariencia_revit};
+    await finishMaterial(material,extraMaterials[id],texture);
+    materials.set(id,material);
+  }));
+  const floors = [], terrain = [], cv3Ids = new Set(); let triangleCount = 0;
+  for (const e of data.elementos) {
+    const object = new THREE.Group(); object.name = e.nombre;
+    object.userData = {revitId: e.id, familia: e.familia, tipo: e.tipo, categoria: e.categoria, clase: e.clase};
+    for (const mesh of e.mallas) {
+      let geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.Float32BufferAttribute(mesh.pos, 3)); geo.setIndex(mesh.idx);
+      geo.computeVertexNormals(); geo.computeBoundingSphere();
+      const base = materials.get(mesh.material);
+      const acabadoTerreno = e.categoria === 'Toposolid' ? pickRevit(e, base.name) : null;
+      const finish = acabadoTerreno || (base.userData.aparienciaRevit ? base : pickRevit(e, base.name) || cv3Finish(e, base));
+      geo=softenFurniture(geo,e,finish||base);
+      if ((finish || base).map || (finish || base).normalMap || (finish || base).bumpMap || e.clase === 'FootPrintRoof') boxUV(geo, e.categoria === 'Roofs');   // UV en metros para las texturas
+      const item = new THREE.Mesh(geo, finish || base); item.name = e.nombre + '_' + e.id;
+      if (e.categoria === 'Entourage') carFinish(item);
+      item.userData = object.userData; item.castShadow = !item.material.transparent && !item.material.userData?.ghost; item.receiveShadow = true;
+      object.add(item); colliders.push(item);if(['Floors','Toposolid'].includes(e.categoria))walkingFloors.push(item); triangleCount += mesh.idx.length / 3;
+    }
+    model.add(object);
+    if (e.clase === 'Floor') floors.push(object);
+    if (e.clase === 'Toposolid') terrain.push(object);
+    if (e.familia?.startsWith('CV3')) cv3Ids.add(e.id);
+  }
+  if (cv3Ids.size !== data.ejemplares_cv3) throw new Error('La exportación de familias está incompleta');
+  world.add(model); world.updateMatrixWorld(true);
+  // Las mallas de Revit no garantizan el sentido de las caras: los acabados se ven por ambos lados
+  for (const m of Object.values(M).flat()) m.side = THREE.DoubleSide;
+  // Pintura: cada cara de muro segun mire al interior, al exterior o sea muro de acento. Propuesta 2 por defecto.
+  revitStamp = new Date(data.fecha).toLocaleString('es-EC',{dateStyle:'short',timeStyle:'short'});
+  const originals = new Map([...materials.values()].map(m=>[m,{color:m.color.clone(),map:m.map,bumpMap:m.bumpMap,bumpScale:m.bumpScale,roughness:m.roughness,metalness:m.metalness}]));
+  let viewerFinish = -1;
+  const finishButton=document.getElementById('bC');
+  function selectFinish(index) {
+    viewerFinish=index;
+    for(const [m,original] of originals){m.color.copy(original.color);for(const k of ['map','bumpMap','bumpScale','roughness','metalness'])m[k]=original[k];m.needsUpdate=true;}
+    if(index<0){finishButton.textContent='Acabados Revit';finishButton.title='Modelo actualizado: '+revitStamp;}
+    else{
+      applyScheme(index);const s=SCHEMES[index];
+      for(const m of materials.values()){
+        if(m.name.includes('Pintura_Exterior'))m.color.setHex(s.ext);
+        if(m.name.includes('Pintura_Interior'))m.color.setHex(0xf6f1e7);
+        const a=['Sala','Dormitorio_principal','Dormitorio_2','Dormitorio_3'].findIndex(n=>m.name.includes('Pintura_Acento')&&m.name.endsWith(n));
+        if(a>=0)m.color.setHex(s.acc[a]);
+        if(m.name==='CASA_V3_Techo_Lamina_Terracota'){
+          m.color.setHex(s.roofColor);m.map=s.roof==='lamina'?T.lamina:T.shingle;
+          m.bumpMap=s.roof==='lamina'?reliefLamina:reliefShingle;m.bumpScale=.003;m.roughness=s.rough;m.metalness=s.metal;m.needsUpdate=true;
+        }
+      }
+    }
+    renderer.shadowMap.needsUpdate=true;
+  }
+  selectFinish(-1);
+  finishButton.onclick=()=>selectFinish(viewerFinish===2?-1:viewerFinish+1);
+  const floorBoxes = floors.map(o => new THREE.Box3().setFromObject(o));
+  const groundFloors = floorBoxes.filter(b => b.max.y > -.2 && b.max.y < .5);
+  const candidates = groundFloors.length ? groundFloors : floorBoxes;
+  candidates.sort((a,b) => (b.max.x-b.min.x)*(b.max.z-b.min.z) - (a.max.x-a.min.x)*(a.max.z-a.min.z));
+  const ref = candidates[0] || new THREE.Box3().setFromObject(world);
+  ref.getCenter(center); const size = ref.getSize(new THREE.Vector3());
+  radius = Math.max(size.x,size.z) * .5; floorY = ref.max.y; center.y = floorY + 1.4;
+  lawnY = terrain.length ? Math.min(...terrain.map(o => new THREE.Box3().setFromObject(o).min.y)) : ref.min.y;
+  scene.fog = new THREE.Fog(0xd3e0ea, radius * 8, 900);
+  const sc = sun.shadow.camera, r = radius * 2.2;
+  sc.left=-r; sc.right=r; sc.top=r; sc.bottom=-r; sc.near=1; sc.far=radius*10; sc.updateProjectionMatrix();
+  updateWindowLights=windowLighting(scene,model,center); updateMirrors=roomMirrors(scene,model);
+  renderer.shadowMap.autoUpdate=false; setHour(10); buildTour();
+  window.__realismo=realismStats;renderer.domElement.dataset.realismo=JSON.stringify(realismStats);
+  document.getElementById('load').style.opacity=0;
+  setTimeout(() => document.getElementById('load')?.remove(), 700);
+  window.__ready=true;
+  window.__app={THREE,renderer,scene,camera,world,M,sun,hemi,lookFrom,at,setMode:(m)=>setMode(m),center};
+  window.__revitSync={fecha:data.fecha,elementos:data.elementos.length,materiales:materials.size,familiasCV3:data.familias_cv3,objetosCV3:cv3Ids.size,triangulos:triangleCount,errores:data.errores};
+}
+loadCurrentRevit().catch(e => {
+  window.__loadError=String(e); console.error(e);
+  document.getElementById('load').textContent='No se pudo cargar el modelo actualizado: '+e.message;
+});
+
+
+function mergeStatic(group) {
+  group.updateMatrixWorld(true);
+  const byMat = new Map();
+  group.traverse(o => {
+    if (!o.isMesh || Array.isArray(o.material)) return;
+    if (!byMat.has(o.material)) byMat.set(o.material, []);
+    byMat.get(o.material).push(o);
+  });
+  for (const [mat, meshes] of byMat) {
+    if (meshes.length < 2) continue;
+    // todas sin indice, para poder mezclar cajas, cilindros y esferas facetadas
+    const merged = mergeGeometries(meshes.map(o => (o.geometry.index ? o.geometry.toNonIndexed() : o.geometry.clone()).applyMatrix4(o.matrixWorld)), false);
+    if (!merged) continue;                     // geometrias incompatibles: se dejan como estaban
+    meshes.forEach(o => { o.parent.remove(o); o.geometry.dispose(); });
+    const m = new THREE.Mesh(merged, mat);
+    m.castShadow = !mat.transparent; m.receiveShadow = true;
+    group.add(m);
+  }
+}
+
+function topTerrainMin(mesh) {
+  // Altura mas baja de la cara superior del terreno (grupo con indice de material 1)
+  const p = mesh.geometry.attributes.position, v = new THREE.Vector3();
+  let min = Infinity;
+  mesh.geometry.groups.filter(g => g.materialIndex === 1).forEach(g => {
+    for (let i = g.start; i < g.start + g.count; i++) { v.fromBufferAttribute(p, i); mesh.localToWorld(v); min = Math.min(min, v.y); }
+  });
+  return isFinite(min) ? min : 0;
+}
+
+M.glass.transmission=0;M.glass.clearcoat=1;M.glass.clearcoatRoughness=.08;M.glass.opacity=.18;M.glass.transparent=true;M.glass.depthWrite=false;M.glass.ior=1.5;M.glass.thickness=0;M.glass.userData.ghost=true;M.glass.envMapIntensity=.65;
+// ---------- Camara: mirar arrastrando + teclado ----------
+let yaw = 0, pitch = 0, mode = 'tour', walk = true;
+const keys = {};
+const el = renderer.domElement;
+let dragging = false, lx = 0, ly = 0;
+el.addEventListener('pointerdown', e => { dragging = true; lx = e.clientX; ly = e.clientY; el.setPointerCapture(e.pointerId); if (mode === 'tour') setMode('free'); });
+el.addEventListener('pointerup', () => { dragging = false; });
+el.addEventListener('pointermove', e => {
+  if (!dragging) return;
+  yaw -= (e.clientX - lx) * 0.0032; pitch -= (e.clientY - ly) * 0.0032;
+  pitch = Math.max(-1.45, Math.min(1.45, pitch)); lx = e.clientX; ly = e.clientY;
+});
+el.addEventListener('wheel', e => {
+  if (mode === 'tour') setMode('free');
+  camera.position.addScaledVector(new THREE.Vector3(-Math.sin(yaw), 0, -Math.cos(yaw)), -Math.sign(e.deltaY) * 0.35);
+}, { passive: true });
+const MOVE = ['KeyW', 'KeyA', 'KeyS', 'KeyD', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+addEventListener('keydown', e => {
+  keys[e.code] = true;
+  if (MOVE.includes(e.code)) { e.preventDefault(); if (mode === 'tour') setMode('free'); }
+  if (e.code === 'KeyF') { walk = !walk; syncUI(); }
+});
+addEventListener('keyup', e => { keys[e.code] = false; });
+
+function lookFrom(pos, target) {
+  camera.position.copy(pos);
+  const d = target.clone().sub(pos);
+  yaw = Math.atan2(-d.x, -d.z);
+  pitch = Math.atan2(d.y, Math.hypot(d.x, d.z));
+}
+function setMode(m) { mode = m; syncUI(); }
+function syncUI() {
+  document.getElementById('bTour').classList.toggle('on', mode === 'tour');
+  const b = document.getElementById('bWalk');
+  b.textContent = walk ? 'Caminar' : 'Volar';
+  b.classList.toggle('on', mode === 'free');
+}
+const at = (dx, h, dz) => new THREE.Vector3(center.x + dx * radius, floorY + h, center.z + dz * radius);
+document.getElementById('bTour').onclick = () => { tourT = 0; setMode('tour'); };
+document.getElementById('bWalk').onclick = () => { if (mode === 'free') walk = !walk; setMode('free'); };
+document.getElementById('bAir').onclick = () => { walk = false; setMode('free'); lookFrom(at(1.5, radius * 1.6, 1.9), center); };
+document.getElementById('bFront').onclick = () => { walk = false; setMode('free'); lookFrom(at(0.35, 1.9, 2.3), center); };
+document.getElementById('bIn').onclick = () => { walk = true; setMode('free'); lookFrom(new THREE.Vector3(146.4, floorY + EYE, 119.6), new THREE.Vector3(143.0, 0.9, 116.0)); };
+document.getElementById('hour').oninput = e => setHour(parseFloat(e.target.value));
+
+const ROOM_STOPS=[   // CASA V6: [nombre, x, z, mira x, mira z] (x = X de Revit, z = -Y de Revit, en metros)
+ ['Sala',144.9,117.2,141.9,119.3],['Comedor',144.3,115.8,142.85,114.28],['Cocina',143.6,115.6,146.5,113.8],
+ ['Recibidor',146.4,119.6,143.0,116.0],['Pasillo',148.05,117.9,148.05,111.8],['Dormitorio principal',148.0,119.2,150.0,121.5],
+ ['Baño principal',151.7,119.8,151.9,122.3],['Vestidor',149.2,118.5,151.8,118.2],['Baño 2',150.5,116.3,152.2,117.0],
+ ['Dormitorio 2',149.3,115.2,151.5,113.3],['Dormitorio 3',149.3,111.8,151.5,110.0],['Lavandería',147.9,111.1,147.3,109.6],
+ ['Terraza norte',144.8,109.6,142.0,111.0],['Entrada',146.6,127.0,146.3,121.0]
+];
+const roomSelect=document.getElementById('bRoom');
+ROOM_STOPS.forEach((r,i)=>{const o=document.createElement('option');o.value=i;o.textContent=r[0];roomSelect.append(o)});
+roomSelect.onchange=()=>{if(roomSelect.value==='')return;const [name,x,z,tx,tz]=ROOM_STOPS[Number(roomSelect.value)];walk=true;setMode('free');lookFrom(new THREE.Vector3(x,floorY+EYE,z),new THREE.Vector3(tx,floorY+1.25,tz));};
+
+// ---------- Recorrido automatico ----------
+let tourCurve = null, tourT = 0;
+const TOUR_SECONDS = 75;
+function buildTour() {
+  const pts = [];
+  // Vuelta a la altura de los ojos, luego una segunda vuelta subiendo hasta vista aerea
+  for (let a = 0; a < 360; a += 30) { const r = THREE.MathUtils.degToRad(a); pts.push(at(Math.sin(r) * 2.2, 1.9, Math.cos(r) * 2.2)); }
+  for (let a = 0; a < 360; a += 30) { const r = THREE.MathUtils.degToRad(a), k = Math.sin(a / 360 * Math.PI); pts.push(at(Math.sin(r) * (2.2 + k * 0.3), 1.9 + k * radius * 1.3, Math.cos(r) * (2.2 + k * 0.3))); }
+  tourCurve = new THREE.CatmullRomCurve3(pts, true, 'catmullrom', 0.5);
+  lookFrom(pts[0], center);
+}
+
+// ---------- Bucle ----------
+const ray = new THREE.Raycaster();
+const DOWN = new THREE.Vector3(0, -1, 0);
+const clock = new THREE.Clock();
+const fwd = new THREE.Vector3(), right = new THREE.Vector3(), tmp = new THREE.Vector3();
+function solid(h) {
+  const m = h.object.material;
+  const mat = Array.isArray(m) ? m[h.face ? h.face.materialIndex : 0] : m;
+  return !(mat && mat.userData.ghost);
+}
+function tick() {
+  const dt = Math.min(clock.getDelta(), 0.05);
+  if (window.__ready) {
+    if (mode === 'tour' && tourCurve) {
+      tourT = (tourT + dt / TOUR_SECONDS) % 1;
+      lookFrom(tourCurve.getPointAt(tourT), center);
+    } else {
+      const sp = (keys.ShiftLeft || keys.ShiftRight ? 3.5 : 1.4) * dt;
+      fwd.set(-Math.sin(yaw), 0, -Math.cos(yaw)); right.set(Math.cos(yaw), 0, -Math.sin(yaw));
+      tmp.set(0, 0, 0);
+      if (keys.KeyW || keys.ArrowUp) tmp.add(fwd);
+      if (keys.KeyS || keys.ArrowDown) tmp.sub(fwd);
+      if (keys.KeyD || keys.ArrowRight) tmp.add(right);
+      if (keys.KeyA || keys.ArrowLeft) tmp.sub(right);
+      if (tmp.lengthSq() > 0) camera.position.addScaledVector(tmp.normalize(), sp);
+      if (walk) {
+        // Seguir el suelo: rayo hacia abajo desde la altura de la cabeza
+        ray.set(tmp.copy(camera.position).setY(camera.position.y + 0.2), DOWN); ray.far = 40;
+        const hit = ray.intersectObjects(walkingFloors, false).find(solid);
+        const target = (hit ? hit.point.y : lawnY) + EYE;
+        camera.position.y += (target - camera.position.y) * Math.min(1, dt * 8);
+      } else {
+        if (keys.KeyE) camera.position.y += sp;
+        if (keys.KeyQ) camera.position.y -= sp;
+      }
+    }
+    camera.rotation.set(pitch, yaw, 0, 'YXZ');
+  }
+  if(window.__ready){updateWindowLights(camera,currentHour);updateMirrors(camera,hq);}
+  if (composer && hq) composer.render(); else renderer.render(scene, camera);
+  requestAnimationFrame(tick);
+}
+
+// ---------- Oclusion ambiental (sombras de contacto en esquinas y bajo los muebles) ----------
+// Si el navegador o la tarjeta grafica no lo soportan, el recorrido sigue funcionando sin este efecto.
+// Cuesta rendimiento, asi que arranca apagado en tarjetas graficas integradas; el boton "Calidad alta" lo cambia.
+let composer = null, hq = true;
+{
+  const gl = renderer.getContext(), dbg = gl.getExtension('WEBGL_debug_renderer_info');
+  const gpu = dbg ? String(gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL)) : '';
+  if (/Intel|UHD|Iris|Radeon\(TM\) Graphics|SwiftShader|llvmpipe/i.test(gpu)) hq = false;
+  if(localStorage.getItem('cv3-quality'))hq=localStorage.getItem('cv3-quality')==='high';
+
+  const bQ = document.getElementById('bQ');
+  bQ.classList.toggle('on', hq); bQ.setAttribute('aria-pressed',String(hq));
+  bQ.onclick = () => { hq = !hq;localStorage.setItem('cv3-quality',hq?'high':'light'); bQ.classList.toggle('on', hq); bQ.setAttribute('aria-pressed',String(hq)); };
+}
+(async () => {
+  try {
+    const { EffectComposer } = await import('three/addons/postprocessing/EffectComposer.js');
+    const { RenderPass } = await import('three/addons/postprocessing/RenderPass.js');
+    const { GTAOPass } = await import('three/addons/postprocessing/GTAOPass.js');
+    const { OutputPass } = await import('three/addons/postprocessing/OutputPass.js');
+    const c = new EffectComposer(renderer);
+    c.renderTarget1.samples = 4; c.renderTarget2.samples = 4;     // suavizado de bordes
+    c.addPass(new RenderPass(scene, camera));
+    const ao = new GTAOPass(scene, camera, innerWidth, innerHeight);
+    ao.updateGtaoMaterial({ radius: 0.3, distanceExponent: 1.5, thickness: .35, scale: 1.0, samples: 12 });
+    ao.blendIntensity = 0.55;
+    c.addPass(ao);
+    c.addPass(new OutputPass());
+    composer = c;
+    window.__ao = ao; window.__composer = c;
+  } catch (e) { console.warn('Oclusion ambiental no disponible:', e); }
+})();
+tick();
+
+addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+  if (composer) composer.setSize(innerWidth, innerHeight);
+});
+</script>
+</body>
+</html>
+
+
+
+
+
