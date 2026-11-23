@@ -18,6 +18,9 @@
   #help b { font-weight: 600; }
   #sun { position: absolute; right: 16px; top: 16px; padding: 8px 14px; font-size: 13px; display: flex; align-items: center; gap: 10px; }
   #load { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: #0d1014; font-size: 16px; transition: opacity .6s; }
+  #fade{position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;z-index:21}
+  #tourStatus { display:none; position:fixed; z-index:22; left:50%; bottom:max(22px,env(safe-area-inset-bottom)); transform:translateX(-50%); max-width:calc(100vw - 40px); padding:10px 16px; border:1px solid #ffffff44; border-radius:999px; background:#101820c9; box-shadow:0 8px 28px #0008; backdrop-filter:blur(8px); font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  body.touring #tourStatus { display:block; }
   #mobileControls { display: none; }
 @media(max-width:900px){#hud{right:16px;top:61px;gap:6px}#hud button{font-size:12px;padding:6px 9px}#hud select{font-size:12px;padding:6px 8px}#sun{top:14px;left:16px;right:auto}#help{font-size:11px;max-width:calc(100vw - 32px)}}
 @media (pointer:coarse), (max-width:900px) {
@@ -26,6 +29,15 @@
   #mobileStick { width:122px; height:122px; border-radius:50%; border:2px solid #ffffff66; background:#10182077; position:relative; pointer-events:auto; touch-action:none; box-shadow:0 8px 24px #0007; }
   #mobileKnob { width:52px; height:52px; border-radius:50%; background:#f4f0e8dd; border:2px solid #fff; position:absolute; left:35px; top:35px; box-shadow:0 4px 15px #0008; pointer-events:none; }
   #mobileHint { max-width:190px; padding:9px 12px; border-radius:10px; background:#101820aa; color:#fff; font-size:12px; line-height:1.35; text-align:right; }
+}
+@media (orientation:portrait) and (max-width:700px) {
+  #hud { left:12px; right:12px; top:max(58px,calc(env(safe-area-inset-top) + 48px)); gap:6px; }
+  #hud button, #hud select { min-height:42px; font-size:13px; }
+  #sun { left:12px; right:12px; top:max(8px,env(safe-area-inset-top)); justify-content:center; }
+  body.touring #hud { top:max(12px,env(safe-area-inset-top)); right:auto; }
+  body.touring #hud > :not(#bTour), body.touring #sun, body.touring #mobileControls { display:none; }
+  body.touring #bTour { min-height:44px; padding:8px 14px; box-shadow:0 8px 24px #0007; }
+  #tourStatus { bottom:max(24px,env(safe-area-inset-bottom)); font-size:13px; }
 }
 </style>
 <script type="importmap">
@@ -54,6 +66,8 @@
   <div id="mobileStick" aria-label="Palanca para caminar"><div id="mobileKnob"></div></div>
   <div id="mobileHint">Palanca izquierda: caminar<br>Desliza a la derecha: mirar</div>
 </div>
+<div id="fade"></div>
+<div id="tourStatus" role="status" aria-live="polite">Recorrido automático · Fachada</div>
 <div id="load">Cargando modelo de Revit…</div>
 
 <script type="module">
@@ -80,6 +94,12 @@ document.body.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.08, 2000);
+function fitCameraToScreen() {
+  camera.aspect = innerWidth / innerHeight;
+  camera.fov = innerHeight > innerWidth ? 78 : 55;   // en vertical el campo horizontal es angosto
+  camera.updateProjectionMatrix();
+}
+fitCameraToScreen();
 
 // ---------- Cielo, sol y luz ambiente ----------
 const sky = new Sky();
@@ -226,7 +246,7 @@ const M = {
   metal: S({ color: 0x2a2c2f, roughness: 0.4, metalness: 0.85 }),
   chrome: S({ color: 0xd9dde0, roughness: 0.12, metalness: 1 }),
   glass: P({ color: 0xd4e8ee, roughness: 0.02, metalness: 0, transparent: true, opacity: 0.2, envMapIntensity: 1.8, side: THREE.DoubleSide, depthWrite: false }),
-  carPaint: P({ color: 0xf4f4f2, roughness: 0.28, metalness: 0.15, clearcoat: 1, clearcoatRoughness: 0.08 }),
+  carPaint: P({ color: 0x4b5057, roughness: 0.32, metalness: 0.55, clearcoat: 1, clearcoatRoughness: 0.06 }),   // gris oscuro metalizado
   carGlass: P({ color: 0x0b1014, roughness: 0.04, metalness: 0.2, envMapIntensity: 2, clearcoat: 1 }),
   carDark: S({ color: 0x18191b, roughness: 0.7 }),
   carSeat: S({ color: 0x6f7074, roughness: 0.9 }),
@@ -621,7 +641,7 @@ async function loadCurrentRevit() {
   const sc = sun.shadow.camera, r = radius * 2.2;
   sc.left=-r; sc.right=r; sc.top=r; sc.bottom=-r; sc.near=1; sc.far=radius*10; sc.updateProjectionMatrix();
   updateWindowLights=windowLighting(scene,model,center); updateMirrors=roomMirrors(scene,model);
-  renderer.shadowMap.autoUpdate=false; setHour(10); buildTour();
+  renderer.shadowMap.autoUpdate=false; setHour(10); buildTour(); syncUI();
   window.__realismo=realismStats;renderer.domElement.dataset.realismo=JSON.stringify(realismStats);
   document.getElementById('load').style.opacity=0;
   setTimeout(() => document.getElementById('load')?.remove(), 700);
@@ -723,12 +743,15 @@ function lookFrom(pos, target) {
 function setMode(m) { mode = m; syncUI(); }
 function syncUI() {
   document.getElementById('bTour').classList.toggle('on', mode === 'tour');
+  document.getElementById('bTour').textContent = mode === 'tour' ? 'Detener recorrido' : 'Recorrido automático';
+  const fd = document.getElementById('fade'); if (fd && mode !== 'tour') fd.style.opacity = 0;
+  document.body.classList.toggle('touring', mode === 'tour');
   const b = document.getElementById('bWalk');
   b.textContent = walk ? 'Caminar' : 'Volar';
   b.classList.toggle('on', mode === 'free');
 }
 const at = (dx, h, dz) => new THREE.Vector3(center.x + dx * radius, floorY + h, center.z + dz * radius);
-document.getElementById('bTour').onclick = () => { tourT = 0; setMode('tour'); };
+document.getElementById('bTour').onclick = () => { if (mode === 'tour') { setMode('free'); return; } tourTime = 0; tourIndex = -1; setMode('tour'); updateTour(0); };
 document.getElementById('bWalk').onclick = () => { if (mode === 'free') walk = !walk; setMode('free'); };
 document.getElementById('bAir').onclick = () => { walk = false; setMode('free'); lookFrom(at(1.5, radius * 1.6, 1.9), center); };
 document.getElementById('bFront').onclick = () => { walk = false; setMode('free'); lookFrom(at(0.35, 1.9, 2.3), center); };
@@ -746,17 +769,60 @@ const roomSelect=document.getElementById('bRoom');
 ROOM_STOPS.forEach((r,i)=>{const o=document.createElement('option');o.value=i;o.textContent=r[0];roomSelect.append(o)});
 roomSelect.onchange=()=>{if(roomSelect.value==='')return;const [name,x,z,tx,tz]=ROOM_STOPS[Number(roomSelect.value)];walk=true;setMode('free');lookFrom(new THREE.Vector3(x,floorY+EYE,z),new THREE.Vector3(tx,floorY+1.25,tz));};
 
-// ---------- Recorrido automatico ----------
-let tourCurve = null, tourT = 0;
-const TOUR_SECONDS = 75;
-function buildTour() {
-  const pts = [];
-  // Vuelta a la altura de los ojos, luego una segunda vuelta subiendo hasta vista aerea
-  for (let a = 0; a < 360; a += 30) { const r = THREE.MathUtils.degToRad(a); pts.push(at(Math.sin(r) * 2.2, 1.9, Math.cos(r) * 2.2)); }
-  for (let a = 0; a < 360; a += 30) { const r = THREE.MathUtils.degToRad(a), k = Math.sin(a / 360 * Math.PI); pts.push(at(Math.sin(r) * (2.2 + k * 0.3), 1.9 + k * radius * 1.3, Math.cos(r) * (2.2 + k * 0.3))); }
-  tourCurve = new THREE.CatmullRomCurve3(pts, true, 'catmullrom', 0.5);
-  lookFrom(pts[0], center);
+// ---------- Recorrido automatico: afuera y luego cada ambiente ----------
+// Cada toma va de un punto a otro (x, altura sobre el piso, z = -Y de Revit, en m) mirando de un objetivo a otro.
+// Entre ambientes hay un fundido a negro: la camara nunca atraviesa muros. Las tomas de afuera se enlazan.
+let tourTime = 0, tourIndex = -1;
+const SHOT = (name, p0, t0, p1, t1, seconds, cut = true) => ({ name, p0, t0, p1, t1, seconds, cut });
+const ROOM = (name, x, z, tx, tz, seconds = 6, th = 1.2) => {
+  const dx = tx - x, dz = tz - z, d = Math.hypot(dx, dz) || 1, k = Math.min(0.5, d * 0.2);
+  return SHOT(name, [x, 1.62, z], [tx, th, tz], [x + dx / d * k, 1.62, z + dz / d * k], [tx - dz / d * 0.35, th, tz + dx / d * 0.35], seconds);
+};
+const TOUR_SHOTS = [
+  SHOT('La casa',              [128, 13, 142],     [145, 1, 116.5],    [164, 13, 140],      [145, 1, 116.5],    10),
+  SHOT('Fachada',              [146.6, 1.8, 134],  [146.3, 1.6, 121],  [146.6, 1.7, 127],   [146.3, 1.5, 120.5], 7),
+  SHOT('Cochera y porche',     [139.5, 1.7, 129],  [146, 1.4, 120.5],  [142.5, 1.7, 124.8], [146.4, 1.3, 118.5], 6),
+  SHOT('Entrada',              [146.6, 1.65, 123.4], [146.5, 1.4, 118], [146.55, 1.65, 121.0], [146.3, 1.35, 117], 5),
+  ROOM('Recibidor', 146.4, 119.4, 142.5, 118.6, 5),
+  ROOM('Sala', 144.9, 117.2, 141.9, 119.3, 7),
+  ROOM('Comedor', 144.3, 115.8, 142.85, 114.28, 5),
+  ROOM('Cocina', 143.6, 115.6, 146.5, 113.8, 7),
+  ROOM('Pasillo', 148.05, 117.9, 148.05, 111.8, 5),
+  ROOM('Dormitorio principal', 148.0, 119.2, 150.0, 121.5, 7),
+  ROOM('Baño principal', 151.7, 119.8, 151.9, 122.3, 5, 1.1),
+  ROOM('Vestidor', 149.2, 118.5, 151.8, 118.2, 5),
+  ROOM('Baño 2', 150.5, 116.3, 152.2, 117.0, 5, 1.1),
+  ROOM('Dormitorio 2', 149.3, 115.2, 151.5, 113.3, 6),
+  ROOM('Dormitorio 3', 149.3, 111.8, 151.5, 110.0, 6),
+  ROOM('Lavandería', 147.9, 111.1, 147.3, 109.6, 5, 1.0),
+  SHOT('Terraza norte',        [144.8, 1.7, 109.6], [142, 1.3, 111],   [143.6, 1.7, 108.6], [141.5, 1.3, 111.5], 6),
+  SHOT('Jardín',               [140.5, 2.2, 104.5], [146, 1.2, 114.5], [147, 2.6, 102.5],   [146, 1.2, 115],    7),
+  SHOT('Vista final',          [158, 9, 104],      [145, 1, 116.5],    [158, 11, 132],      [145, 1, 116.5],    9)
+];
+const TOUR_SECONDS = TOUR_SHOTS.reduce((sum, s) => sum + s.seconds, 0);
+const tourPos = new THREE.Vector3(), tourTarget = new THREE.Vector3(), _ta = new THREE.Vector3(), _tb = new THREE.Vector3();
+const tourStatus = document.getElementById('tourStatus'), fadeEl = document.getElementById('fade');
+const shotVec = (v, out) => out.set(v[0], floorY + v[1], v[2]);
+const smooth = (v) => v * v * (3 - 2 * v);
+const FADE = 0.7;
+function updateTour(dt) {
+  tourTime = (tourTime + dt) % TOUR_SECONDS;
+  let elapsed = 0, i = 0;
+  while (i < TOUR_SHOTS.length - 1 && tourTime >= elapsed + TOUR_SHOTS[i].seconds) elapsed += TOUR_SHOTS[i++].seconds;
+  const s = TOUR_SHOTS[i], next = TOUR_SHOTS[(i + 1) % TOUR_SHOTS.length];
+  const local = tourTime - elapsed, u = smooth(Math.min(1, local / s.seconds));
+  tourPos.lerpVectors(shotVec(s.p0, _ta), shotVec(s.p1, _tb), u);
+  tourTarget.lerpVectors(shotVec(s.t0, _ta), shotVec(s.t1, _tb), u);
+  lookFrom(tourPos, tourTarget);
+  let o = 0;
+  if (s.cut && local < FADE) o = 1 - local / FADE;
+  if (next.cut && s.seconds - local < FADE) o = Math.max(o, 1 - (s.seconds - local) / FADE);
+  if (fadeEl) fadeEl.style.opacity = o.toFixed(3);
+  if (tourIndex !== i) { tourIndex = i; tourStatus.textContent = `Recorrido · ${s.name}`; }
 }
+function buildTour() { tourTime = 0; tourIndex = -1; updateTour(0); }
+// prueba: saltar a una toma por su nombre (window.__tourIr('Cocina'))
+window.__tourIr = (n) => { let t = 0; for (const s of TOUR_SHOTS) { if (s.name === n) { tourTime = t + s.seconds * 0.5; return n; } t += s.seconds; } return null; };
 
 // ---------- Bucle ----------
 const ray = new THREE.Raycaster();
@@ -769,11 +835,10 @@ function solid(h) {
   return !(mat && mat.userData.ghost);
 }
 function tick() {
-  const dt = Math.min(clock.getDelta(), 0.05);
+  const rawDt = clock.getDelta(), dt = Math.min(rawDt, 0.05);   // el recorrido usa el tiempo real (rawDt): igual de rapido en celulares lentos
   if (window.__ready) {
-    if (mode === 'tour' && tourCurve) {
-      tourT = (tourT + dt / TOUR_SECONDS) % 1;
-      lookFrom(tourCurve.getPointAt(tourT), center);
+    if (mode === 'tour') {
+      updateTour(Math.min(rawDt, 0.5));
     } else {
       const sp = (keys.ShiftLeft || keys.ShiftRight ? 3.5 : 1.4) * dt;
       fwd.set(-Math.sin(yaw), 0, -Math.cos(yaw)); right.set(Math.cos(yaw), 0, -Math.sin(yaw));
@@ -810,7 +875,7 @@ let composer = null, hq = true;
 {
   const gl = renderer.getContext(), dbg = gl.getExtension('WEBGL_debug_renderer_info');
   const gpu = dbg ? String(gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL)) : '';
-  if (/Intel|UHD|Iris|Radeon\(TM\) Graphics|SwiftShader|llvmpipe/i.test(gpu)) hq = false;
+  if (/Intel|UHD|Iris|Radeon\(TM\) Graphics|SwiftShader|llvmpipe/i.test(gpu) || matchMedia('(pointer:coarse)').matches || innerWidth < 700) hq = false;
   if(localStorage.getItem('cv3-quality'))hq=localStorage.getItem('cv3-quality')==='high';
 
   const bQ = document.getElementById('bQ');
@@ -838,7 +903,7 @@ let composer = null, hq = true;
 tick();
 
 addEventListener('resize', () => {
-  camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+  fitCameraToScreen();
   renderer.setSize(innerWidth, innerHeight);
   if (composer) composer.setSize(innerWidth, innerHeight);
 });
