@@ -96,7 +96,8 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.08, 2000);
 function fitCameraToScreen() {
   camera.aspect = innerWidth / innerHeight;
-  camera.fov = innerHeight > innerWidth ? 78 : 55;   // en vertical el campo horizontal es angosto
+  // en vertical el campo horizontal es angosto: el recorrido abre mas la vista
+  camera.fov = innerHeight > innerWidth ? (window.__touring ? 92 : 78) : (window.__touring ? 62 : 55);
   camera.updateProjectionMatrix();
 }
 fitCameraToScreen();
@@ -692,10 +693,15 @@ const keys = {};
 const el = renderer.domElement;
 let mobileMoveX = 0, mobileMoveY = 0, stickPointer = null;
 let dragging = false, lx = 0, ly = 0;
-el.addEventListener('pointerdown', e => { dragging = true; lx = e.clientX; ly = e.clientY; el.setPointerCapture(e.pointerId); if (mode === 'tour') setMode('free'); });
-el.addEventListener('pointerup', () => { dragging = false; });
+let tapX = 0, tapY = 0, tapT = 0;
+el.addEventListener('pointerdown', e => { dragging = true; lx = tapX = e.clientX; ly = tapY = e.clientY; tapT = performance.now(); el.setPointerCapture(e.pointerId); });
+el.addEventListener('pointerup', e => {
+  dragging = false;
+  // un toque corto en el recorrido lo pausa o lo sigue (no lo reinicia)
+  if (mode === 'tour' && Math.hypot(e.clientX - tapX, e.clientY - tapY) < 12 && performance.now() - tapT < 450) { tourPaused = !tourPaused; tourSnap = true; updateTour(0); }
+});
 el.addEventListener('pointermove', e => {
-  if (!dragging) return;
+  if (!dragging || (mode === 'tour' && !tourPaused)) return;
   yaw -= (e.clientX - lx) * 0.0032; pitch -= (e.clientY - ly) * 0.0032;
   pitch = Math.max(-1.45, Math.min(1.45, pitch)); lx = e.clientX; ly = e.clientY;
 });
@@ -743,15 +749,17 @@ function lookFrom(pos, target) {
 function setMode(m) { mode = m; syncUI(); }
 function syncUI() {
   document.getElementById('bTour').classList.toggle('on', mode === 'tour');
-  document.getElementById('bTour').textContent = mode === 'tour' ? 'Detener recorrido' : 'Recorrido automático';
+  document.getElementById('bTour').textContent = mode === 'tour' ? 'Detener recorrido' : (tourTime > 0 ? 'Seguir recorrido' : 'Recorrido automático');
   const fd = document.getElementById('fade'); if (fd && mode !== 'tour') fd.style.opacity = 0;
+  if (mode !== 'tour') { tourPaused = false; tourDoors.forEach(d => { d.o.visible = true; }); }
+  window.__touring = mode === 'tour'; fitCameraToScreen();
   document.body.classList.toggle('touring', mode === 'tour');
   const b = document.getElementById('bWalk');
   b.textContent = walk ? 'Caminar' : 'Volar';
   b.classList.toggle('on', mode === 'free');
 }
 const at = (dx, h, dz) => new THREE.Vector3(center.x + dx * radius, floorY + h, center.z + dz * radius);
-document.getElementById('bTour').onclick = () => { if (mode === 'tour') { setMode('free'); return; } tourTime = 0; tourIndex = -1; setMode('tour'); updateTour(0); };
+document.getElementById('bTour').onclick = () => { if (mode === 'tour') { setMode('free'); return; } tourPaused = false; tourSnap = true; setMode('tour'); updateTour(0); };
 document.getElementById('bWalk').onclick = () => { if (mode === 'free') walk = !walk; setMode('free'); };
 document.getElementById('bAir').onclick = () => { walk = false; setMode('free'); lookFrom(at(1.5, radius * 1.6, 1.9), center); };
 document.getElementById('bFront').onclick = () => { walk = false; setMode('free'); lookFrom(at(0.35, 1.9, 2.3), center); };
@@ -769,60 +777,121 @@ const roomSelect=document.getElementById('bRoom');
 ROOM_STOPS.forEach((r,i)=>{const o=document.createElement('option');o.value=i;o.textContent=r[0];roomSelect.append(o)});
 roomSelect.onchange=()=>{if(roomSelect.value==='')return;const [name,x,z,tx,tz]=ROOM_STOPS[Number(roomSelect.value)];walk=true;setMode('free');lookFrom(new THREE.Vector3(x,floorY+EYE,z),new THREE.Vector3(tx,floorY+1.25,tz));};
 
-// ---------- Recorrido automatico: afuera y luego cada ambiente ----------
-// Cada toma va de un punto a otro (x, altura sobre el piso, z = -Y de Revit, en m) mirando de un objetivo a otro.
-// Entre ambientes hay un fundido a negro: la camara nunca atraviesa muros. Las tomas de afuera se enlazan.
-let tourTime = 0, tourIndex = -1;
-const SHOT = (name, p0, t0, p1, t1, seconds, cut = true) => ({ name, p0, t0, p1, t1, seconds, cut });
-const ROOM = (name, x, z, tx, tz, seconds = 6, th = 1.2) => {
-  const dx = tx - x, dz = tz - z, d = Math.hypot(dx, dz) || 1, k = Math.min(0.5, d * 0.2);
-  return SHOT(name, [x, 1.62, z], [tx, th, tz], [x + dx / d * k, 1.62, z + dz / d * k], [tx - dz / d * 0.35, th, tz + dx / d * 0.35], seconds);
-};
-const TOUR_SHOTS = [
-  SHOT('La casa',              [128, 13, 142],     [145, 1, 116.5],    [164, 13, 140],      [145, 1, 116.5],    10),
-  SHOT('Fachada',              [146.6, 1.8, 134],  [146.3, 1.6, 121],  [146.6, 1.7, 127],   [146.3, 1.5, 120.5], 7),
-  SHOT('Cochera y porche',     [139.5, 1.7, 129],  [146, 1.4, 120.5],  [142.5, 1.7, 124.8], [146.4, 1.3, 118.5], 6),
-  SHOT('Entrada',              [146.6, 1.65, 123.4], [146.5, 1.4, 118], [146.55, 1.65, 121.0], [146.3, 1.35, 117], 5),
-  ROOM('Recibidor', 146.4, 119.4, 142.5, 118.6, 5),
-  ROOM('Sala', 144.9, 117.2, 141.9, 119.3, 7),
-  ROOM('Comedor', 144.3, 115.8, 142.85, 114.28, 5),
-  ROOM('Cocina', 143.6, 115.6, 146.5, 113.8, 7),
-  ROOM('Pasillo', 148.05, 117.9, 148.05, 111.8, 5),
-  ROOM('Dormitorio principal', 148.0, 119.2, 150.0, 121.5, 7),
-  ROOM('Baño principal', 151.7, 119.8, 151.9, 122.3, 5, 1.1),
-  ROOM('Vestidor', 149.2, 118.5, 151.8, 118.2, 5),
-  ROOM('Baño 2', 150.5, 116.3, 152.2, 117.0, 5, 1.1),
-  ROOM('Dormitorio 2', 149.3, 115.2, 151.5, 113.3, 6),
-  ROOM('Dormitorio 3', 149.3, 111.8, 151.5, 110.0, 6),
-  ROOM('Lavandería', 147.9, 111.1, 147.3, 109.6, 5, 1.0),
-  SHOT('Terraza norte',        [144.8, 1.7, 109.6], [142, 1.3, 111],   [143.6, 1.7, 108.6], [141.5, 1.3, 111.5], 6),
-  SHOT('Jardín',               [140.5, 2.2, 104.5], [146, 1.2, 114.5], [147, 2.6, 102.5],   [146, 1.2, 115],    7),
-  SHOT('Vista final',          [158, 9, 104],      [145, 1, 116.5],    [158, 11, 132],      [145, 1, 116.5],    9)
+// ---------- Recorrido automatico: una caminata continua por toda la casa ----------
+// Cada punto: nombre, posicion [x, altura de ojos sobre el piso, z] y a donde mira la camara (z = -Y de Revit, en m).
+// La camara camina por una curva suave que pasa por el centro de las puertas. Solo hay fundido al salir a la terraza
+// y al volver a empezar. Tocar la pantalla pausa o sigue. Las puertas cerradas se ocultan cuando la camara pasa por ellas.
+let tourTime = 0, tourIndex = '', tourPaused = false, TOUR_SECONDS = 0, tourDoors = [], tourSnap = true;
+const W = (name, x, y, z, tx, ty, tz, cut = false) => ({ name, p: [x, y, z], t: [tx, ty, tz], cut });
+const TOUR_PATH = [
+  W('La casa', 132, 14, 138, 145, 1, 116.5, true),
+  W('La casa', 146.6, 11, 140, 145.5, 1, 116.5),
+  W('Fachada', 146.6, 4.5, 130.5, 146.6, 1.6, 119.5),
+  W('Porche', 146.6, 1.65, 124.6, 146.6, 1.5, 118),
+  W('Entrada', 146.6, 1.62, 121.3, 146.5, 1.4, 116),
+  W('Recibidor', 146.6, 1.62, 117.1, 142.5, 1.3, 117.6),
+  W('Sala', 144.8, 1.62, 117.0, 142.0, 1.1, 119.2),
+  W('Comedor', 143.4, 1.62, 116.4, 142.9, 0.9, 113.8),
+  W('Cocina', 144.0, 1.62, 115.7, 147.0, 1.0, 113.4),
+  W('Cocina', 145.3, 1.62, 116.7, 147.6, 1.4, 117.0),
+  W('Pasillo', 146.6, 1.62, 116.9, 149.5, 1.4, 116.9),
+  W('Pasillo', 148.1, 1.62, 117.0, 148.0, 1.3, 120.5),
+  W('Dormitorio principal', 148.0, 1.62, 118.0, 148.6, 1.2, 121.5),
+  W('Dormitorio principal', 148.1, 1.62, 119.4, 150.0, 0.9, 121.8),
+  W('Dormitorio principal', 148.7, 1.62, 120.2, 151.6, 1.2, 120.0),
+  W('Baño principal', 150.3, 1.62, 119.95, 152.0, 1.1, 120.6),
+  W('Baño principal', 151.45, 1.62, 120.5, 151.7, 1.0, 122.6),
+  W('Vestidor', 150.2, 1.62, 120.0, 149.6, 1.3, 118.4),
+  W('Vestidor', 149.85, 1.62, 118.9, 152.0, 1.2, 118.7),
+  W('Dormitorio principal', 149.6, 1.62, 120.1, 148.0, 1.4, 117.5),
+  W('Pasillo', 148.0, 1.62, 119.0, 148.0, 1.4, 115.5),
+  W('Baño 2', 148.15, 1.62, 117.1, 150.8, 1.2, 116.5),
+  W('Baño 2', 149.45, 1.62, 116.6, 151.6, 1.1, 116.9),
+  W('Pasillo', 148.15, 1.62, 116.3, 148.1, 1.3, 112.5),
+  W('Dormitorio 2', 148.15, 1.62, 115.35, 151.0, 1.1, 114.2),
+  W('Dormitorio 2', 149.6, 1.62, 115.3, 151.3, 0.9, 113.4),
+  W('Pasillo', 148.2, 1.62, 115.0, 148.1, 1.3, 111.0),
+  W('Dormitorio 3', 148.15, 1.62, 111.85, 151.0, 1.1, 110.8),
+  W('Dormitorio 3', 149.6, 1.62, 111.8, 151.3, 0.9, 110.0),
+  W('Lavandería', 148.2, 1.62, 111.9, 148.2, 1.0, 109.6),
+  W('Lavandería', 148.2, 1.62, 110.5, 147.6, 0.9, 109.6),
+  W('Terraza', 144.9, 1.7, 108.4, 141.5, 1.2, 111.5, true),
+  W('Terraza', 142.5, 1.8, 106.0, 143.5, 1.2, 111.5),
+  W('Jardín', 139.0, 3.0, 103.0, 146, 1.2, 115),
+  W('Vista final', 140, 10, 98, 145.5, 1, 116.5),
+  W('Vista final', 156, 12, 100, 145.5, 1, 116.5),
+  W('Vista final', 160, 13, 126, 145.5, 1, 116.5)
 ];
-const TOUR_SECONDS = TOUR_SHOTS.reduce((sum, s) => sum + s.seconds, 0);
-const tourPos = new THREE.Vector3(), tourTarget = new THREE.Vector3(), _ta = new THREE.Vector3(), _tb = new THREE.Vector3();
+const FADE = 0.7, HOLD_IN = 1.0, HOLD_OUT = 1.2, WALK = 0.6, FLY = 3.5;
+const tourPos = new THREE.Vector3(), tourTarget = new THREE.Vector3(), tourWant = new THREE.Vector3(), _ta = new THREE.Vector3(), _tb = new THREE.Vector3();
 const tourStatus = document.getElementById('tourStatus'), fadeEl = document.getElementById('fade');
 const shotVec = (v, out) => out.set(v[0], floorY + v[1], v[2]);
 const smooth = (v) => v * v * (3 - 2 * v);
-const FADE = 0.7;
+let TOUR_LINE = [];   // tramos: espera con fundido al empezar, caminata punto a punto, espera con fundido al terminar
+function buildTour() {
+  // tramos continuos separados por los cortes
+  const legs = [];
+  TOUR_PATH.forEach((w, i) => { if (w.cut || !legs.length) legs.push([]); legs[legs.length - 1].push(w); });
+  TOUR_LINE = [];
+  for (const pts of legs) {
+    const curve = new THREE.CatmullRomCurve3(pts.map(w => shotVec(w.p, new THREE.Vector3())), false, 'centripetal');
+    TOUR_LINE.push({ kind: 'in', pts, curve, dur: HOLD_IN });
+    for (let k = 0; k < pts.length - 1; k++) {
+      const a = shotVec(pts[k].p, _ta), b = shotVec(pts[k + 1].p, _tb);
+      const flying = pts[k].p[1] > 3 || pts[k + 1].p[1] > 3;
+      const da = new THREE.Vector3().fromArray(pts[k].t).sub(new THREE.Vector3().fromArray(pts[k].p)).setY(0).normalize();
+      const db = new THREE.Vector3().fromArray(pts[k + 1].t).sub(new THREE.Vector3().fromArray(pts[k + 1].p)).setY(0).normalize();
+      const turn = Math.acos(Math.max(-1, Math.min(1, da.dot(db)))) * 180 / Math.PI;
+      TOUR_LINE.push({ kind: 'move', pts, curve, k, dur: Math.max(2.2, a.distanceTo(b) / (flying ? FLY : WALK), turn / 32) });
+    }
+    TOUR_LINE.push({ kind: 'out', pts, curve, dur: HOLD_OUT });
+  }
+  TOUR_SECONDS = TOUR_LINE.reduce((s, e) => s + e.dur, 0);
+  tourDoors = [];
+  world.traverse(o => {
+    if (!o.userData || o.userData.categoria !== 'Doors' || (o.parent && o.parent.userData && o.parent.userData.categoria === 'Doors')) return;
+    const b = new THREE.Box3().setFromObject(o);
+    if (!b.isEmpty()) tourDoors.push({ o, b });
+  });
+  tourTime = 0; tourIndex = ''; tourSnap = true; updateTour(0);
+}
+function showDoors(near) {
+  for (const d of tourDoors) {
+    const dx = Math.max(d.b.min.x - near.x, 0, near.x - d.b.max.x), dz = Math.max(d.b.min.z - near.z, 0, near.z - d.b.max.z);
+    d.o.visible = !(mode === 'tour' && Math.hypot(dx, dz) < 3.2 && near.y < floorY + 3);
+  }
+}
 function updateTour(dt) {
+  if (!TOUR_LINE.length || tourFrozen) return;
+  if (tourPaused) dt = 0;
   tourTime = (tourTime + dt) % TOUR_SECONDS;
   let elapsed = 0, i = 0;
-  while (i < TOUR_SHOTS.length - 1 && tourTime >= elapsed + TOUR_SHOTS[i].seconds) elapsed += TOUR_SHOTS[i++].seconds;
-  const s = TOUR_SHOTS[i], next = TOUR_SHOTS[(i + 1) % TOUR_SHOTS.length];
-  const local = tourTime - elapsed, u = smooth(Math.min(1, local / s.seconds));
-  tourPos.lerpVectors(shotVec(s.p0, _ta), shotVec(s.p1, _tb), u);
-  tourTarget.lerpVectors(shotVec(s.t0, _ta), shotVec(s.t1, _tb), u);
-  lookFrom(tourPos, tourTarget);
-  let o = 0;
-  if (s.cut && local < FADE) o = 1 - local / FADE;
-  if (next.cut && s.seconds - local < FADE) o = Math.max(o, 1 - (s.seconds - local) / FADE);
+  while (i < TOUR_LINE.length - 1 && tourTime >= elapsed + TOUR_LINE[i].dur) elapsed += TOUR_LINE[i++].dur;
+  const e = TOUR_LINE[i], local = tourTime - elapsed, u = Math.min(1, local / e.dur), n = e.pts.length;
+  let w0, w1, f, o = 0;
+  if (e.kind === 'in') { tourPos.copy(e.curve.getPoint(0)); w0 = w1 = e.pts[0]; f = 0; o = 1 - Math.min(1, local / FADE); }
+  else if (e.kind === 'out') { tourPos.copy(e.curve.getPoint(1)); w0 = w1 = e.pts[n - 1]; f = 0; o = Math.max(0, 1 - (e.dur - local) / FADE); }
+  else {
+    // arranca y termina suave en los extremos del tramo; en medio, paso constante
+    let v = u;
+    if (n === 2) v = smooth(u);
+    else if (e.k === 0) v = 1 - Math.cos(u * Math.PI / 2);
+    else if (e.k === n - 2) v = Math.sin(u * Math.PI / 2);
+    tourPos.copy(e.curve.getPoint((e.k + v) / (n - 1)));
+    w0 = e.pts[e.k]; w1 = e.pts[e.k + 1]; f = smooth(u);
+  }
+  tourWant.lerpVectors(shotVec(w0.t, _ta), shotVec(w1.t, _tb), f);
+  if (tourSnap || e.kind === 'in') { tourTarget.copy(tourWant); tourSnap = false; }
+  else tourTarget.lerp(tourWant, 1 - Math.exp(-dt * 3));
+  if (!tourPaused) lookFrom(tourPos, tourTarget);
+  showDoors(tourPos);
   if (fadeEl) fadeEl.style.opacity = o.toFixed(3);
-  if (tourIndex !== i) { tourIndex = i; tourStatus.textContent = `Recorrido · ${s.name}`; }
+  const name = tourPaused ? 'En pausa · toca la pantalla para seguir' : `Recorrido · ${(f > 0.5 ? w1 : w0).name}`;
+  if (tourIndex !== name) { tourIndex = name; tourStatus.textContent = name; }
 }
-function buildTour() { tourTime = 0; tourIndex = -1; updateTour(0); }
-// prueba: saltar a una toma por su nombre (window.__tourIr('Cocina'))
-window.__tourIr = (n) => { let t = 0; for (const s of TOUR_SHOTS) { if (s.name === n) { tourTime = t + s.seconds * 0.5; return n; } t += s.seconds; } return null; };
+// prueba: saltar al punto del recorrido que tiene ese nombre (window.__tourIr('Cocina'))
+let tourFrozen = false;   // solo para pruebas: deja la camara quieta en un punto
+window.__tourIr = (name, quieto = false, n = 1) => { let t = 0; for (const e of TOUR_LINE) { if (e.kind === 'move' && e.pts[e.k + 1].name === name && --n === 0) { tourFrozen = false; tourTime = t + e.dur * 0.9; tourSnap = true; updateTour(0); tourFrozen = quieto; return name; } t += e.dur; } return null; };
 
 // ---------- Bucle ----------
 const ray = new THREE.Raycaster();
