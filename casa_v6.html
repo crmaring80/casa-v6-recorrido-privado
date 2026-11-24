@@ -247,7 +247,9 @@ const M = {
   metal: S({ color: 0x2a2c2f, roughness: 0.4, metalness: 0.85 }),
   chrome: S({ color: 0xd9dde0, roughness: 0.12, metalness: 1 }),
   glass: P({ color: 0xd4e8ee, roughness: 0.02, metalness: 0, transparent: true, opacity: 0.2, envMapIntensity: 1.8, side: THREE.DoubleSide, depthWrite: false }),
-  carPaint: P({ color: 0x4b5057, roughness: 0.32, metalness: 0.55, clearcoat: 1, clearcoatRoughness: 0.06 }),   // gris oscuro metalizado
+  carPaint: P({ color: 0x1d4b86, roughness: 0.3, metalness: 0.5, clearcoat: 1, clearcoatRoughness: 0.05 }),   // azul metalizado
+  carRim: S({ color: 0x3b3e43, roughness: 0.3, metalness: 0.85 }),
+  carHead: P({ color: 0xf4f6f8, roughness: 0.05, metalness: 0.4, emissive: 0x9a9890, envMapIntensity: 2 }),
   carGlass: P({ color: 0x0b1014, roughness: 0.04, metalness: 0.2, envMapIntensity: 2, clearcoat: 1 }),
   carDark: S({ color: 0x18191b, roughness: 0.7 }),
   carSeat: S({ color: 0x6f7074, roughness: 0.9 }),
@@ -436,26 +438,47 @@ function cv3Kind(e, base) {
   if (/Sofa|Silla|Banco|Cama|Puf|Sillon/i.test(fam) && !base.metalness) return 'fabric';
   return null;
 }
-// Auto: Revit lo exporta con un solo material. Se reparte por altura: parte baja oscura (ruedas y bajos),
+// Auto: Revit lo exporta con un solo material. Se separa por zonas de la camioneta (coordenadas propias, en pies):
+// llantas y aros (circulos alrededor de los ejes, por fuera), luces traseras y delanteras, parrilla y bajos oscuros,
 // franja de ventanas en vidrio oscuro y el resto en pintura de carroceria.
 function carFinish(mesh) {
   const g = mesh.geometry, p = g.attributes.position, idx = g.index.array, tri = idx.length / 3;
   g.computeBoundingBox();
-  const z0 = g.boundingBox.min.z, hgt = g.boundingBox.max.z - z0 || 1;
-  const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3(), n = new THREE.Vector3();
-  const cls = new Uint8Array(tri);
+  const bb = g.boundingBox, z0 = bb.min.z, hgt = bb.max.z - z0 || 1;
+  const xc = (bb.min.x + bb.max.x) / 2, halfW = (bb.max.x - bb.min.x) / 2, y0 = bb.min.y, len = bb.max.y - bb.min.y || 1;
+  const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3(), n = new THREE.Vector3(), m = new THREE.Vector3();
+  const cen = new Float32Array(tri * 3), nz = new Float32Array(tri);
   for (let t = 0; t < tri; t++) {
     a.fromBufferAttribute(p, idx[t * 3]); b.fromBufferAttribute(p, idx[t * 3 + 1]); c.fromBufferAttribute(p, idx[t * 3 + 2]);
-    const f = ((a.z + b.z + c.z) / 3 - z0) / hgt;
-    n.subVectors(b, a).cross(c.sub(a)).normalize();
-    cls[t] = f < 0.2 ? 2 : (f > 0.6 && f < 0.9 && Math.abs(n.z) < 0.8 ? 1 : 0);
+    m.copy(a).add(b).add(c).multiplyScalar(1 / 3); cen[t * 3] = m.x; cen[t * 3 + 1] = m.y; cen[t * 3 + 2] = m.z;
+    n.subVectors(b, a).cross(c.sub(a)).normalize(); nz[t] = n.z;
+  }
+  // ejes: lo que toca el suelo por fuera se agrupa en adelante y atras
+  const R = 0.23 * hgt, ys = [];
+  for (let t = 0; t < tri; t++) if (cen[t * 3 + 2] - z0 < 0.06 * hgt && Math.abs(cen[t * 3] - xc) > halfW - 1.1) ys.push(cen[t * 3 + 1]);
+  ys.sort((u, v) => u - v);
+  const mid = y0 + len / 2, ejes = [];
+  for (const half of [ys.filter(v => v < mid), ys.filter(v => v >= mid)]) if (half.length) ejes.push(half.reduce((s, v) => s + v, 0) / half.length);
+  const cls = new Uint8Array(tri);
+  for (let t = 0; t < tri; t++) {
+    const x = cen[t * 3], y = cen[t * 3 + 1], z = cen[t * 3 + 2], zr = (z - z0) / hgt, yr = (y - y0) / len, dx = Math.abs(x - xc);
+    let k = 0;
+    let rueda = -1;
+    for (const ye of ejes) { const d = Math.hypot(y - ye, z - (z0 + R)); if (d < R * 1.04) rueda = d; }
+    if (rueda >= 0 && dx > halfW - 1.15) k = rueda < R * 0.6 ? 4 : 3;                       // aro / llanta
+    else if (yr < 0.04 && zr > 0.42 && zr < 0.68 && dx > halfW - 0.8) k = 5;                 // luces traseras
+    else if (yr > 0.965 && zr > 0.5 && zr < 0.6 && dx > halfW - 1.25 && dx < halfW - 0.2 && nz[t] < 0.6) k = 6;   // faros
+    else if (yr > 0.95 && zr > 0.28 && zr < 0.62) k = 2;                                       // parrilla
+    else if (zr < 0.2) k = 2;                                                                  // bajos y parachoques
+    else if (zr > 0.6 && zr < 0.92 && yr > 0.33 && yr < 0.82 && Math.abs(nz[t]) < 0.8) k = 1;  // ventanas
+    cls[t] = k;
   }
   const order = Array.from({ length: tri }, (_, i) => i).sort((i, j) => cls[i] - cls[j]);
   const ni = new Uint32Array(tri * 3);
   order.forEach((t, k) => { ni[k * 3] = idx[t * 3]; ni[k * 3 + 1] = idx[t * 3 + 1]; ni[k * 3 + 2] = idx[t * 3 + 2]; });
   g.setIndex(new THREE.BufferAttribute(ni, 1)); g.clearGroups();
   for (let k = 0; k < tri;) { const cl = cls[order[k]]; let e2 = k; while (e2 < tri && cls[order[e2]] === cl) e2++; g.addGroup(k * 3, (e2 - k) * 3, cl); k = e2; }
-  mesh.material = [M.carPaint, M.carGlass, M.carDark];
+  mesh.material = [M.carPaint, M.carGlass, M.carDark, M.rubber, M.carRim, M.carRed, M.carHead];
 }
 const cv3Cache = new Map();
 function cv3Finish(e, base) {
@@ -784,8 +807,9 @@ roomSelect.onchange=()=>{if(roomSelect.value==='')return;const [name,x,z,tx,tz]=
 let tourTime = 0, tourIndex = '', tourPaused = false, TOUR_SECONDS = 0, tourDoors = [], tourSnap = true;
 const W = (name, x, y, z, tx, ty, tz, cut = false) => ({ name, p: [x, y, z], t: [tx, ty, tz], cut });
 const TOUR_PATH = [
-  W('La casa', 132, 14, 138, 145, 1, 116.5, true),
-  W('La casa', 146.6, 11, 140, 145.5, 1, 116.5),
+  W('La casa', 122, 15, 145, 144.5, 1, 117, true),
+  W('La casa', 130, 13, 145, 145.5, 1, 117),
+  W('Fachada', 146.6, 9, 139, 146.6, 1.4, 119),
   W('Fachada', 146.6, 4.5, 130.5, 146.6, 1.6, 119.5),
   W('Porche', 146.6, 1.65, 124.6, 146.6, 1.5, 118),
   W('Entrada', 146.6, 1.62, 121.3, 146.5, 1.4, 116),
@@ -815,12 +839,17 @@ const TOUR_PATH = [
   W('Dormitorio 3', 149.6, 1.62, 111.8, 151.3, 0.9, 110.0),
   W('Lavandería', 148.2, 1.62, 111.9, 148.2, 1.0, 109.6),
   W('Lavandería', 148.2, 1.62, 110.5, 147.6, 0.9, 109.6),
-  W('Terraza', 144.9, 1.7, 108.4, 141.5, 1.2, 111.5, true),
-  W('Terraza', 142.5, 1.8, 106.0, 143.5, 1.2, 111.5),
-  W('Jardín', 139.0, 3.0, 103.0, 146, 1.2, 115),
-  W('Vista final', 140, 10, 98, 145.5, 1, 116.5),
-  W('Vista final', 156, 12, 100, 145.5, 1, 116.5),
-  W('Vista final', 160, 13, 126, 145.5, 1, 116.5)
+  W('Lavandería', 147.0, 1.62, 110.4, 144.5, 1.4, 110.4),
+  W('Salida trasera', 145.85, 1.62, 110.4, 142.5, 1.3, 110.8),
+  W('Terraza', 144.3, 1.65, 110.6, 140.5, 1.2, 110.0),
+  W('BBQ', 142.3, 1.65, 110.7, 139.0, 1.25, 109.6),
+  W('BBQ', 141.7, 1.65, 110.9, 138.8, 1.1, 111.2),
+  W('BBQ', 140.6, 1.8, 107.6, 139.2, 1.2, 110.4),
+  W('Vista aérea', 138, 6, 102, 145, 1, 116),
+  W('Vista aérea', 142, 17, 95, 145.5, 1, 116.5),
+  W('Vista aérea', 161, 20, 100, 145.5, 1, 116.5),
+  W('Vista aérea', 167, 20, 122, 145.5, 1, 116.5),
+  W('Vista aérea', 150, 22, 141, 145.5, 1, 116.5)
 ];
 const FADE = 0.7, HOLD_IN = 1.0, HOLD_OUT = 1.2, WALK = 0.6, FLY = 3.5;
 const tourPos = new THREE.Vector3(), tourTarget = new THREE.Vector3(), tourWant = new THREE.Vector3(), _ta = new THREE.Vector3(), _tb = new THREE.Vector3();
@@ -858,7 +887,7 @@ function buildTour() {
 function showDoors(near) {
   for (const d of tourDoors) {
     const dx = Math.max(d.b.min.x - near.x, 0, near.x - d.b.max.x), dz = Math.max(d.b.min.z - near.z, 0, near.z - d.b.max.z);
-    d.o.visible = !(mode === 'tour' && Math.hypot(dx, dz) < 3.2 && near.y < floorY + 3);
+    d.o.visible = !(mode === 'tour' && Math.hypot(dx, dz) < 1.1 && near.y < floorY + 3);
   }
 }
 function updateTour(dt) {
