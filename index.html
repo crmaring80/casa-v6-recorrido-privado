@@ -62,7 +62,7 @@
         const plain=await crypto.subtle.decrypt({name:'AES-GCM',iv},key,cipher);
         JSON.parse(new TextDecoder().decode(plain));
         await saveModel(plain);
-        location.replace('./casa_v6.html?v=vestidor-4');
+        location.replace('./casa_v6.html?v=camioneta-5');
       }catch(error){
         console.error(error);
         msg.textContent='Contraseña incorrecta. Inténtalo otra vez.';

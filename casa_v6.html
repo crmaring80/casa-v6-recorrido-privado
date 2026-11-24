@@ -438,6 +438,36 @@ function cv3Kind(e, base) {
   if (/Sofa|Silla|Banco|Cama|Puf|Sillon/i.test(fam) && !base.metalness) return 'fabric';
   return null;
 }
+// Camioneta con sus materiales de Revit (auto_V6.json, de Texturas_Revit\cv6_auto_exportar.py).
+// Cada grupo trae el material con que Revit dibuja esa parte; aqui se le da el acabado de auto que corresponde.
+function carMaterial(g) {
+  const n = g.material || '', col = new THREE.Color().setRGB(...g.color.map(c => c / 255), THREE.SRGBColorSpace);
+  if (/Material car|Pintura|COLOR/i.test(n)) return P({ color: col, roughness: 0.38, metalness: 0.35, clearcoat: 1, clearcoatRoughness: 0.08, envMapIntensity: 0.8 });
+  if (/Steel|Acero|Cromad|Metal/i.test(n)) return S({ color: col, roughness: 0.42, metalness: 0.45, envMapIntensity: 0.8 });
+  if (/Caucho|Pneu|rubber/i.test(n)) return M.rubber;
+  if (/lanterna|Vermelh|red/i.test(n)) return M.carRed;
+  if (/Vidr|Glass|Material001/i.test(n) || g.transparencia > 0.3) return M.carGlass;
+  if (/fosco/i.test(n)) return S({ color: col, roughness: 0.85 });
+  if (/preto|black/i.test(n)) return S({ color: col, roughness: 0.35, metalness: 0.2 });
+  return S({ color: col, roughness: Math.max(0.1, 1 - (g.brillo || 0.3)) });
+}
+async function loadRevitCar(model) {
+  let data;
+  try { const r = await fetch('./auto_V6.json', { cache: 'no-store' }); if (!r.ok) return false; data = await r.json(); } catch (err) { return false; }
+  const obj = model.children.find(o => String(o.userData.revitId) === String(data.id));
+  if (!obj || !data.grupos?.length) return false;
+  for (const old of [...obj.children]) { obj.remove(old); old.geometry.dispose(); const k = colliders.indexOf(old); if (k >= 0) colliders.splice(k, 1); }
+  for (const g of data.grupos) {
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(g.pos, 3)); geo.setIndex(g.idx);
+    geo.computeVertexNormals(); geo.computeBoundingSphere();
+    const mat = carMaterial(g); mat.side = THREE.DoubleSide;   // las caras del modelo importado no siempre miran hacia afuera
+    const item = new THREE.Mesh(geo, mat); item.name = obj.name + '_' + g.material;
+    item.userData = obj.userData; item.castShadow = true; item.receiveShadow = true;
+    obj.add(item); colliders.push(item);
+  }
+  return true;
+}
 // Auto: Revit lo exporta con un solo material. Se separa por zonas de la camioneta (coordenadas propias, en pies):
 // llantas y aros (circulos alrededor de los ejes, por fuera), luces traseras y delanteras, parrilla y bajos oscuros,
 // franja de ventanas en vidrio oscuro y el resto en pintura de carroceria.
@@ -624,6 +654,7 @@ async function loadCurrentRevit() {
     if (e.familia?.startsWith('CV3')) cv3Ids.add(e.id);
   }
   if (cv3Ids.size !== data.ejemplares_cv3) throw new Error('La exportación de familias está incompleta');
+  await loadRevitCar(model);   // camioneta con sus materiales de Revit
   world.add(model); world.updateMatrixWorld(true);
   // Las mallas de Revit no garantizan el sentido de las caras: los acabados se ven por ambos lados
   for (const m of Object.values(M).flat()) m.side = THREE.DoubleSide;
